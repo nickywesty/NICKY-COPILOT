@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nickywest Copilot Trades - Portfolio Dashboard</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script defer src="https://cdn.vercel-analytics.com/analytics.js"></script>
     <style>
         * {
             margin: 0;
@@ -525,44 +526,37 @@
             </div>
         </div>
 
-        <!-- Footer -->
+        <!-- Flipping Copilot Info Panel -->
         <div class="panel">
             <h3>🚀 FLIPPING COPILOT</h3>
-            <div class="copilot-content">
-                <div class="copilot-header">
-                    <div class="copilot-brand">
-                        <div class="brand-icon">🚀</div>
-                        <div class="brand-info">
-                            <h4>Flipping Copilot</h4>
-                            <p>AI-Powered Trading</p>
-                        </div>
-                    </div>
-
-                    <div class="button-group">
-                        <div class="button-container">
-                            <div class="button-box">
-                                <a href="https://www.flippingcopilot.com/" target="_blank" class="mini-btn website-btn">
-                                    🌐 Website
-                                </a>
-                            </div>
-                        </div>
-                        <div class="button-container">
-                            <div class="button-box">
-                                <a href="https://discord.gg/Q9DrMsb5J2" target="_blank" class="mini-btn discord-btn">
-                                    💬 Discord
-                                </a>
-                            </div>
-                        </div>
+            <div class="copilot-info-content">
+                <div class="copilot-brand">
+                    <div class="brand-icon">🚀</div>
+                    <div class="brand-text">
+                        <h4>Flipping Copilot</h4>
+                        <p>AI-powered insights</p>
                     </div>
                 </div>
-
-                <div class="strategy-note">
-                    <div class="note-header">
-                        <span class="note-icon">⚡</span>
-                        <span class="note-title">Trading Strategy</span>
-                    </div>
-                    <p>Utilizing advanced 5-30 minute flip cycles with extended 8-hour overnight positions for maximum market efficiency</p>
+                <div class="trade-note">
+                    💡 Note: Flips are made using 5-30 minute mode
                 </div>
+            </div>
+        </div>
+
+        <!-- Action Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <a href="https://www.flippingcopilot.com/" target="_blank" class="card-link">
+                    <div class="stat-icon website-icon">🌍</div>
+                    <div class="stat-label">Website</div>
+                </a>
+            </div>
+
+            <div class="stat-card">
+                <a href="https://discord.gg/Q9DrMsb5J2" target="_blank" class="card-link">
+                    <div class="stat-icon discord-icon">🎮</div>
+                    <div class="stat-label">Discord</div>
+                </a>
             </div>
         </div>
     </div>
@@ -786,6 +780,11 @@
 
     // Load data when page loads
     loadFlipData();
+
+    // Initialize Vercel Analytics
+    if (typeof va !== 'undefined') {
+        va.track('Dashboard View');
+    }
 </script>
 </body>
 </html>

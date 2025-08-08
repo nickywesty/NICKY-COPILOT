@@ -1,20 +1,174 @@
 {
   "meta": {
-    "totalFlips": 117,
-    "totalTradingProfit": 10096258,
+    "totalFlips": 139,
+    "totalTradingProfit": 11437250,
     "startingCash": 207400000,
-    "currentNetWorth": 217496258,
-    "uniqueItems": 83,
-    "averageProfitPerFlip": 86292.80341880342,
-    "lastUpdated": "2025-08-08T00:35:40.171Z"
+    "currentNetWorth": 218837250,
+    "uniqueItems": 89,
+    "averageProfitPerFlip": 82282.37410071942,
+    "lastUpdated": "2025-08-08T01:10:27.778Z"
   },
   "flips": [
     {
-      "item": "Iron ore",
-      "profit": 12968,
-      "sellTime": "2025-08-07T20:50:46Z",
+      "item": "Crystal armour seed",
+      "profit": 117570,
+      "sellTime": "2025-08-08T01:06:05Z",
       "account": "Ormeth",
       "status": "SELLING"
+    },
+    {
+      "item": "Echo crystal",
+      "profit": 62686,
+      "sellTime": "2025-08-08T01:05:12Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Ranarr seed",
+      "profit": 52663,
+      "sellTime": "2025-08-08T01:02:33Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Blood essence",
+      "profit": 104277,
+      "sellTime": "2025-08-08T00:57:59Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Blood rune",
+      "profit": 100000,
+      "sellTime": "2025-08-08T00:55:00Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Nature rune",
+      "profit": 18000,
+      "sellTime": "2025-08-08T00:52:34Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Cannonball",
+      "profit": 44000,
+      "sellTime": "2025-08-08T00:48:29Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Amulet of avarice",
+      "profit": 5008,
+      "sellTime": "2025-08-08T00:43:13Z",
+      "account": "Ormeth",
+      "status": "SELLING"
+    },
+    {
+      "item": "Black chinchompa",
+      "profit": 30430,
+      "sellTime": "2025-08-08T00:40:38Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Zulrah's scales",
+      "profit": 90000,
+      "sellTime": "2025-08-08T00:38:07Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Adamant dart",
+      "profit": 44000,
+      "sellTime": "2025-08-08T00:30:02Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Death rune",
+      "profit": 25000,
+      "sellTime": "2025-08-08T00:25:13Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Iron ore",
+      "profit": 13000,
+      "sellTime": "2025-08-08T00:23:56Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Coal",
+      "profit": 26000,
+      "sellTime": "2025-08-08T00:17:52Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Chaos rune",
+      "profit": 5604,
+      "sellTime": "2025-08-08T00:17:49Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Demon tear",
+      "profit": 104000,
+      "sellTime": "2025-08-08T00:12:27Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Gold bar",
+      "profit": 20000,
+      "sellTime": "2025-08-08T00:11:49Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Viggora's chainmace (u)",
+      "profit": 6118,
+      "sellTime": "2025-08-08T00:10:21Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Eclipse atlatl",
+      "profit": 25770,
+      "sellTime": "2025-08-08T00:07:10Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Soul rune",
+      "profit": 50000,
+      "sellTime": "2025-08-08T00:06:08Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Masori body",
+      "profit": 307034,
+      "sellTime": "2025-08-07T23:53:16Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Quetzal feed",
+      "profit": 62634,
+      "sellTime": "2025-08-07T23:50:38Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Iron ore",
+      "profit": 40166,
+      "sellTime": "2025-08-07T21:02:35Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
     },
     {
       "item": "Saradomin brew(4)",

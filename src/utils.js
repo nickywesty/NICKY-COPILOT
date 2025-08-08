@@ -157,3 +157,13 @@ module.exports = {
   formatTimestampWithOffset,
   toCSVCell,
 };
+
+// Track button clicks
+va.track('Website Click');
+va.track('Discord Click');
+
+// Track chart interactions
+va.track('Chart Viewed');
+
+// Track performance milestones
+va.track('Portfolio Milestone', { value: currentNetWorth });
