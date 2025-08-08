@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSRS Flip Tracker - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .panel h3 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .flip-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .flip-table th,
+        .flip-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .flip-table th {
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: bold;
+        }
+
+        .flip-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .profit-positive {
+            color: #4ade80;
+            font-weight: bold;
+        }
+
+        .profit-negative {
+            color: #f87171;
+            font-weight: bold;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+        }
+
+        .error {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            color: #fca5a5;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .gp {
+            color: #fbbf24;
+            font-weight: bold;
+        }
+
+        .recent-flips {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .goal-progress {
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🏆 OSRS Flip Tracker</h1>
+        <p>Your Grand Exchange Trading Dashboard</p>
+    </div>
+
+    <div id="loading" class="loading">
+        📊 Loading your flip data...
+    </div>
+
+    <div id="error" class="error" style="display: none;">
+        ❌ Error loading data. Make sure your flips.json file exists in the data folder.
+    </div>
+
+    <div id="dashboard" style="display: none;">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-value gp" id="current-networth">0 GP</div>
+                <div class="stat-label">Current Net Worth</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-value gp" id="trading-profit">0 GP</div>
+                <div class="stat-label">Trading Profit</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🏪</div>
+                <div class="stat-value" id="total-flips">0</div>
+                <div class="stat-label">Completed Flips</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-value gp" id="avg-profit">0 GP</div>
+                <div class="stat-label">Avg Profit/Flip</div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3>🎯 Progress to 2.1B GP Goal</h3>
+            <div class="goal-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill">0%</div>
+                </div>
+                <p>Current: <span class="gp" id="current-gp">0 GP</span> / Goal: <span class="gp">2,147,000,000 GP</span></p>
+                <p>Remaining: <span class="gp" id="remaining-gp">2,147,000,000 GP</span></p>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="panel">
+                <h3>🔥 Top Profitable Items</h3>
+                <div class="recent-flips">
+                    <table class="flip-table">
+                        <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Total Profit</th>
+                            <th>Flips</th>
+                        </tr>
+                        </thead>
+                        <tbody id="top-items">
+                        <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3>⏰ Recent Flips</h3>
+                <div class="recent-flips">
+                    <table class="flip-table">
+                        <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Profit</th>
+                            <th>Time</th>
+                        </tr>
+                        </thead>
+                        <tbody id="recent-flips">
+                        <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function formatNumber(num) {
+        if (num >= 1000000) {
+            return (num / 1000000).toFixed(1) + 'M';
+        } else if (num >= 1000) {
+            return (num / 1000).toFixed(1) + 'K';
+        }
+        return num.toLocaleString();
+    }
+
+    function formatGP(amount) {
+        return formatNumber(amount) + ' GP';
+    }
+
+    function formatTime(timeString) {
+        const date = new Date(timeString);
+        return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }
+
+    async function loadFlipData() {
+        try {
+            const response = await fetch('data/flips.json');
+            if (!response.ok) {
+                throw new Error('Failed to load data');
+            }
+            const data = await response.json();
+            displayDashboard(data);
+        } catch (error) {
+            console.error('Error loading flip data:', error);
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+        }
+    }
+
+    function displayDashboard(data) {
+        const { meta, flips } = data;
+
+        // Update main stats
+        document.getElementById('current-networth').textContent = formatGP(meta.currentNetWorth || meta.totalProfit);
+        document.getElementById('trading-profit').textContent = formatGP(meta.totalTradingProfit || meta.totalProfit);
+        document.getElementById('total-flips').textContent = meta.totalFlips.toLocaleString();
+        document.getElementById('avg-profit').textContent = formatGP(Math.round(meta.averageProfitPerFlip || (meta.totalProfit / meta.totalFlips)));
+
+        // Update goal progress - use net worth for goal calculation
+        const goal = 2147000000; // 2.1B GP
+        const currentAmount = meta.currentNetWorth || meta.totalProfit;
+        const progressPercent = (currentAmount / goal) * 100;
+        document.getElementById('progress-fill').style.width = Math.min(progressPercent, 100) + '%';
+        document.getElementById('progress-fill').textContent = progressPercent.toFixed(3) + '%';
+        document.getElementById('current-gp').textContent = formatGP(currentAmount);
+        document.getElementById('remaining-gp').textContent = formatGP(goal - currentAmount);
+
+        // Calculate top items by total profit
+        const itemStats = {};
+        flips.forEach(flip => {
+            if (!itemStats[flip.item]) {
+                itemStats[flip.item] = { totalProfit: 0, count: 0 };
+            }
+            itemStats[flip.item].totalProfit += flip.profit;
+            itemStats[flip.item].count += 1;
+        });
+
+        const topItems = Object.entries(itemStats)
+            .sort((a, b) => b[1].totalProfit - a[1].totalProfit)
+            .slice(0, 10);
+
+        const topItemsHTML = topItems.map(([item, stats]) => `
+            <tr>
+                <td>${item}</td>
+                <td class="profit-positive">${formatGP(stats.totalProfit)}</td>
+                <td>${stats.count}</td>
+            </tr>
+        `).join('');
+        document.getElementById('top-items').innerHTML = topItemsHTML;
+
+        // Recent flips (sorted by sell time)
+        const recentFlips = [...flips]
+            .sort((a, b) => new Date(b.sellTime) - new Date(a.sellTime))
+            .slice(0, 15);
+
+        const recentFlipsHTML = recentFlips.map(flip => `
+            <tr>
+                <td>${flip.item}</td>
+                <td class="${flip.profit >= 0 ? 'profit-positive' : 'profit-negative'}">
+                    ${formatGP(flip.profit)}
+                </td>
+                <td>${formatTime(flip.sellTime)}</td>
+            </tr>
+        `).join('');
+        document.getElementById('recent-flips').innerHTML = recentFlipsHTML;
+
+        // Show dashboard, hide loading
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+    }
+
+    // Load data when page loads
+    loadFlipData();
+</script>
+</body>
+</html>

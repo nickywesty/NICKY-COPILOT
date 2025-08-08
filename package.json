@@ -1,0 +1,13 @@
+{
+  "name": "osrs-flip-tracker",
+  "version": "1.0.0",
+  "description": "OSRS flip tracking and analysis tool",
+  "main": "src/run-all.js",
+  "scripts": {
+    "start": "node src/run-all.js",
+    "parse": "node src/parser.js"
+  },
+  "keywords": ["osrs", "flipping", "tracking"],
+  "author": "Your Name",
+  "license": "MIT"
+}
