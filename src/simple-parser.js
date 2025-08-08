@@ -97,7 +97,7 @@ async function processFlips() {
   const avgProfit = totalProfit / completedFlips.length;
 
   // Starting cash and net worth calculation
-  const startingCash = 207400000; // 207.4M GP starting cash
+  const startingCash = 211026040; // 211.026M GP starting cash
   const currentNetWorth = startingCash + totalProfit;
 
   console.log(`💰 Total Trading Profit: ${totalProfit.toLocaleString()} GP`);

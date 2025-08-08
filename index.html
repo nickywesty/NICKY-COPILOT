@@ -1373,26 +1373,27 @@
     function displayDashboard(data) {
         const { meta, flips } = data;
 
-        // Calculate growth percentage
-        const startingCash = meta.startingCash || 211026040;
-        const currentNetWorth = meta.currentNetWorth || meta.totalProfit;
-        const growthPercent = ((currentNetWorth - startingCash) / startingCash * 100).toFixed(1);
+        // Use actual current cash stack as portfolio value
+        const currentCashStack = 211026040; // Your actual current cash
+        const totalTradingProfit = meta.totalTradingProfit || meta.totalProfit;
+        const calculatedStartingCash = currentCashStack - totalTradingProfit;
+        const growthPercent = ((currentCashStack - calculatedStartingCash) / calculatedStartingCash * 100).toFixed(1);
 
         // Update main stats
-        document.getElementById('current-networth').textContent = formatGP(currentNetWorth);
+        document.getElementById('current-networth').textContent = formatGP(currentCashStack);
         document.getElementById('growth-indicator').textContent = `+${growthPercent}% total growth`;
-        document.getElementById('trading-profit').textContent = formatGP(meta.totalTradingProfit || meta.totalProfit);
+        document.getElementById('trading-profit').textContent = formatGP(totalTradingProfit);
         document.getElementById('total-flips').textContent = meta.totalFlips.toLocaleString();
-        document.getElementById('avg-profit').textContent = formatGP(Math.round(meta.averageProfitPerFlip || (meta.totalProfit / meta.totalFlips)));
+        document.getElementById('avg-profit').textContent = formatGP(Math.round(meta.averageProfitPerFlip || (totalTradingProfit / meta.totalFlips)));
 
-        // Update goal progress - use net worth for goal calculation
+        // Update goal progress - use current cash for goal calculation
         const goal = 2147000000; // 2.1B GP
-        const progressPercent = (currentNetWorth / goal) * 100;
+        const progressPercent = (currentCashStack / goal) * 100;
         const clampedProgress = Math.min(progressPercent, 100); // Cap at 100%
         document.getElementById('progress-fill').style.width = clampedProgress + '%';
         document.getElementById('progress-fill').textContent = progressPercent.toFixed(3) + '%';
-        document.getElementById('current-gp').textContent = formatGP(currentNetWorth);
-        document.getElementById('remaining-gp').textContent = formatGP(goal - currentNetWorth);
+        document.getElementById('current-gp').textContent = formatGP(currentCashStack);
+        document.getElementById('remaining-gp').textContent = formatGP(goal - currentCashStack);
 
         // Update Trading Skills (Flipping XP based on flip count)
         const flipCount = meta.totalFlips;
@@ -1405,29 +1406,30 @@
         document.getElementById('flipping-xp').textContent = `${flipCount.toLocaleString()} / ${maxFlips.toLocaleString()} Flips`;
 
         // Update Market Battle with highest performing asset (by total profit)
-        const itemStats = {};
+        // First calculate item stats for top performing asset
+        const battleItemStats = {};
         flips.forEach(flip => {
-            if (!itemStats[flip.item]) {
-                itemStats[flip.item] = { totalProfit: 0, count: 0 };
+            if (!battleItemStats[flip.item]) {
+                battleItemStats[flip.item] = { totalProfit: 0, count: 0 };
             }
-            itemStats[flip.item].totalProfit += flip.profit;
-            itemStats[flip.item].count += 1;
+            battleItemStats[flip.item].totalProfit += flip.profit;
+            battleItemStats[flip.item].count += 1;
         });
 
-        const topPerformingAsset = Object.entries(itemStats)
+        const topPerformingAsset = Object.entries(battleItemStats)
             .sort((a, b) => b[1].totalProfit - a[1].totalProfit)[0];
 
         if (topPerformingAsset) {
             const [itemName, stats] = topPerformingAsset;
             document.getElementById('highest-win').textContent = `+${formatGP(stats.totalProfit)}`;
-            document.getElementById('combat-message').textContent = `Trader Nick's top weapon: ${itemName}! Total damage dealt: ${formatGP(stats.totalProfit)} across ${stats.count} trades!`;
+            document.getElementById('combat-message').textContent = `Trader Nick's ultimate weapon: ${itemName}! Total damage: ${formatGP(stats.totalProfit)} across ${stats.count} battles!`;
         }
 
         // Update Quest Progress
-        updateQuestProgress(currentNetWorth, flipCount);
+        updateQuestProgress(currentCashStack, flipCount);
 
         // Create daily profit chart
-        createDailyProfitChart(flips, startingCash);
+        createDailyProfitChart(flips, calculatedStartingCash);
 
         // Calculate top items by total profit
         const itemStats = {};
