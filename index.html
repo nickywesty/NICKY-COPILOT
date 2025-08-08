@@ -1,565 +1,1308 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nickywest Copilot Trades - Portfolio Dashboard</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <script>
-        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-    </script>
-    <script defer src="/_vercel/insights/script.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
-            color: #ffffff;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Animated background grid */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image:
-                linear-gradient(rgba(0, 255, 0, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 0, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: gridMove 20s linear infinite;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 40px 0;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(20, 20, 20, 0.95) 50%, rgba(0, 0, 0, 0.9) 100%);
-            border-radius: 30px;
-            border: 2px solid transparent;
-            background-clip: padding-box;
-            box-shadow:
-                0 15px 35px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #ffd700, #ff6b35, #00ff88, #667eea, #ffd700);
-            background-size: 300% 300%;
-            animation: borderGradient 4s ease infinite;
-            border-radius: 30px;
-            z-index: -1;
-        }
-
-        @keyframes borderGradient {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .header h1 {
-            font-size: 3.8rem;
-            margin-bottom: 15px;
-            background: linear-gradient(45deg, #ffd700, #ff6b35, #00ff88, #667eea);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: textGradient 3s ease infinite;
-            font-weight: 800;
-            letter-spacing: -2px;
-            text-shadow: 0 0 50px rgba(255, 215, 0, 0.3);
-        }
-
-        @keyframes textGradient {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .header p {
-            font-size: 1.4rem;
-            color: #c0c0c0;
-            font-weight: 400;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-        }
-
-        .live-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 20px;
-            padding: 12px 24px;
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 200, 255, 0.15));
-            border: 2px solid rgba(0, 255, 136, 0.4);
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
-        }
-
-        .live-dot {
-            width: 10px;
-            height: 10px;
-            background: radial-gradient(circle, #00ff88, #00cc66);
-            border-radius: 50%;
-            animation: livePulse 1.5s ease-in-out infinite;
-            box-shadow: 0 0 10px #00ff88;
-        }
-
-        @keyframes livePulse {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-                box-shadow: 0 0 10px #00ff88;
-            }
-            50% {
-                opacity: 0.7;
-                transform: scale(1.2);
-                box-shadow: 0 0 20px #00ff88;
-            }
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(25, 25, 25, 0.95) 100%);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 35px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg,
-                rgba(255, 215, 0, 0.05) 0%,
-                rgba(255, 107, 53, 0.05) 25%,
-                rgba(0, 255, 136, 0.05) 50%,
-                rgba(102, 126, 234, 0.05) 75%,
-                rgba(255, 215, 0, 0.05) 100%);
-            background-size: 400% 400%;
-            animation: cardGlow 6s ease infinite;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            border-radius: 25px;
-        }
-
-        .stat-card:hover::before {
-            opacity: 1;
-        }
-
-        @keyframes cardGlow {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .stat-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow:
-                0 25px 50px rgba(0, 0, 0, 0.5),
-                0 0 30px rgba(255, 215, 0, 0.2);
-            border-color: rgba(255, 215, 0, 0.4);
-        }
-
-        .stat-icon {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4));
-            animation: iconFloat 4s ease-in-out infinite;
-        }
-
-        @keyframes iconFloat {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            25% { transform: translateY(-5px) rotate(2deg); }
-            75% { transform: translateY(-3px) rotate(-2deg); }
-        }
-
-        .stat-value {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            font-family: 'Consolas', 'Monaco', monospace;
-        }
-
-        .stat-label {
-            font-size: 1rem;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 500;
-        }
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        .panel {
-            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(20, 20, 20, 0.95) 100%);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid rgba(0, 255, 0, 0.15);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        .panel h3 {
-            margin-bottom: 25px;
-            font-size: 1.6rem;
-            border-bottom: 2px solid rgba(0, 255, 0, 0.3);
-            padding-bottom: 15px;
-            color: #ffffff;
-            font-weight: 600;
-        }
-
-        .flip-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            font-family: 'Consolas', 'Monaco', monospace;
-        }
-
-        .flip-table th,
-        .flip-table td {
-            padding: 15px 12px;
-            text-align: left;
-            border-bottom: 1px solid rgba(0, 255, 0, 0.1);
-        }
-
-        .flip-table th {
-            background: linear-gradient(135deg, rgba(0, 255, 0, 0.1) 0%, rgba(0, 200, 0, 0.1) 100%);
-            font-weight: 600;
-            color: #00ff00;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-size: 0.85rem;
-        }
-
-        .flip-table tr {
-            transition: all 0.3s ease;
-        }
-
-        .flip-table tr:hover {
-            background: rgba(0, 255, 0, 0.05);
-            transform: scale(1.01);
-        }
-
-        .profit-positive {
-            color: #00ff88;
-            font-weight: 700;
-            text-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
-        }
-
-        .profit-negative {
-            color: #ff4444;
-            font-weight: 700;
-            text-shadow: 0 0 5px rgba(255, 68, 68, 0.3);
-        }
-
-        .loading {
-            text-align: center;
-            padding: 80px;
-            font-size: 1.4rem;
-            color: #00ff00;
-        }
-
-        .error {
-            background: rgba(255, 68, 68, 0.15);
-            border: 1px solid rgba(255, 68, 68, 0.4);
-            color: #ff8888;
-            padding: 25px;
-            border-radius: 15px;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .gp {
-            color: #00ff88;
-            font-weight: 700;
-            text-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
-        }
-
-        .recent-flips {
-            max-height: 450px;
-            overflow-y: auto;
-        }
-
-        .recent-flips::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .recent-flips::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 4px;
-        }
-
-        .recent-flips::-webkit-scrollbar-thumb {
-            background: rgba(0, 255, 0, 0.3);
-            border-radius: 4px;
-        }
-
-        .recent-flips::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 255, 0, 0.5);
-        }
-
-        .goal-progress {
-            margin-top: 25px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 25px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 15px;
-            overflow: hidden;
-            margin: 15px 0;
-            border: 1px solid rgba(0, 255, 0, 0.2);
-            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #00ff00, #00cc00, #009900);
-            transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #000;
-            text-shadow: none;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-fill::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        .goal-text {
-            font-size: 1.1rem;
-            margin: 10px 0;
-            color: #ccc;
-        }
-
-        @media (max-width: 768px) {
-            .content-grid {
-                grid-template-columns: 1fr;
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Nickywest Copilot Trades - Portfolio Dashboard</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+        <script>
+            window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        </script>
+        <script defer src="/_vercel/insights/script.js"></script>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
             }
 
-            .header h1 {
-                font-size: 2.5rem;
+            body {
+                font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+                background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+                color: #ffffff;
+                min-height: 100vh;
+                overflow-x: hidden;
             }
 
-            .stats-grid {
-                grid-template-columns: 1fr;
+            /* Animated background grid */
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image:
+                    linear-gradient(rgba(0, 255, 0, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0, 255, 0, 0.03) 1px, transparent 1px);
+                background-size: 50px 50px;
+                animation: gridMove 20s linear infinite;
+                pointer-events: none;
+                z-index: -1;
+            }
+
+            /* Floating GP coins */
+            body::after {
+                content: '🪙 🪙 🪙 🪙 🪙 🪙 🪙 🪙 🪙 🪙';
+                position: fixed;
+                top: -50px;
+                left: -100px;
+                width: 120%;
+                height: 100vh;
+                font-size: 2rem;
+                color: #ffd700;
+                letter-spacing: 200px;
+                animation: floatingCoins 25s linear infinite;
+                pointer-events: none;
+                z-index: -1;
+                opacity: 0.3;
+            }
+
+            @keyframes gridMove {
+                0% { transform: translate(0, 0); }
+                100% { transform: translate(50px, 50px); }
+            }
+
+            @keyframes floatingCoins {
+                0% {
+                    transform: translateX(-100px) translateY(-50px) rotate(0deg);
+                    opacity: 0;
+                }
+                10% { opacity: 0.3; }
+                90% { opacity: 0.3; }
+                100% {
+                    transform: translateX(100vw) translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+
+            /* Sparkling particles */
+            .container::before {
+                content: '✨ ⭐ ✨ ⭐ ✨ ⭐ ✨ ⭐';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                font-size: 1rem;
+                animation: sparkle 8s ease-in-out infinite;
+                pointer-events: none;
+                z-index: 0;
+                opacity: 0.4;
+            }
+
+            @keyframes sparkle {
+                0%, 100% {
+                    transform: scale(0.8) rotate(0deg);
+                    opacity: 0.2;
+                }
+                50% {
+                    transform: scale(1.2) rotate(180deg);
+                    opacity: 0.6;
+                }
             }
 
             .container {
-                padding: 15px;
+                max-width: 1400px;
+                margin: 0 auto;
+                padding: min(20px, 2vw);
+                position: relative;
+                z-index: 1;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                box-sizing: border-box;
             }
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-    <div class="header">
-        <h1>💼 NICKYWEST COPILOT TRADES</h1>
-        <p>Advanced Grand Exchange Trading Analytics</p>
-        <div class="live-indicator">
-            <div class="live-dot"></div>
-            LIVE PORTFOLIO
+
+            .stats-grid, .content-grid, .panel {
+                width: 100%;
+                max-width: 1200px;
+                box-sizing: border-box;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 25px;
+                margin-bottom: 30px;
+            }
+
+            .content-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+                gap: 30px;
+                margin-bottom: 30px;
+            }
+
+            .panel {
+                padding: min(30px, 4vw);
+                margin-bottom: min(30px, 4vw);
+            }
+
+            .header h1 {
+                font-size: clamp(2rem, 8vw, 3.8rem);
+                margin-bottom: 15px;
+                background: linear-gradient(45deg, #ffd700, #ff6b35, #00ff88, #667eea);
+                background-size: 300% 300%;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                animation: textGradient 3s ease infinite;
+                font-weight: 800;
+                letter-spacing: -2px;
+                text-shadow: 0 0 50px rgba(255, 215, 0, 0.3);
+            }
+
+            .header p {
+                font-size: clamp(1rem, 3vw, 1.4rem);
+                color: #c0c0c0;
+                font-weight: 400;
+                letter-spacing: 1px;
+                margin-bottom: 20px;
+            }
+
+            /* Remove all the old responsive breakpoints */
+
+            @media (max-width: 1200px) {
+                .container {
+                    max-width: 95%;
+                    padding: 20px;
+                }
+                .stats-grid, .content-grid, .panel {
+                    max-width: 100%;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .container {
+                    max-width: 100%;
+                    padding: 15px;
+                }
+                .content-grid {
+                    grid-template-columns: 1fr;
+                }
+                .stats-grid {
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                }
+            }
+
+            @media (max-width: 480px) {
+                .container {
+                    padding: 10px;
+                }
+                .stats-grid {
+                    grid-template-columns: 1fr;
+                }
+                .content-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            .header {
+                text-align: center;
+                margin-bottom: 40px;
+                padding: 40px 0;
+                background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(20, 20, 20, 0.95) 50%, rgba(0, 0, 0, 0.9) 100%);
+                border-radius: 30px;
+                border: 2px solid transparent;
+                background-clip: padding-box;
+                box-shadow:
+                    0 15px 35px rgba(0, 0, 0, 0.5),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .header::before {
+                content: '';
+                position: absolute;
+                top: -2px;
+                left: -2px;
+                right: -2px;
+                bottom: -2px;
+                background: linear-gradient(45deg, #ffd700, #ff6b35, #00ff88, #667eea, #ffd700);
+                background-size: 300% 300%;
+                animation: borderGradient 4s ease infinite;
+                border-radius: 30px;
+                z-index: -1;
+            }
+
+            @keyframes borderGradient {
+                0%, 100% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+            }
+
+            .header h1 {
+                font-size: 3.8rem;
+                margin-bottom: 15px;
+                background: linear-gradient(45deg, #ffd700, #ff6b35, #00ff88, #667eea);
+                background-size: 300% 300%;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                animation: textGradient 3s ease infinite;
+                font-weight: 800;
+                letter-spacing: -2px;
+                text-shadow: 0 0 50px rgba(255, 215, 0, 0.3);
+            }
+
+            @keyframes textGradient {
+                0%, 100% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+            }
+
+            .header p {
+                font-size: 1.4rem;
+                color: #c0c0c0;
+                font-weight: 400;
+                letter-spacing: 1px;
+                margin-bottom: 20px;
+            }
+
+            .live-indicator {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                margin-top: 20px;
+                padding: 12px 24px;
+                background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 200, 255, 0.15));
+                border: 2px solid rgba(0, 255, 136, 0.4);
+                border-radius: 50px;
+                font-size: 1rem;
+                font-weight: 600;
+                backdrop-filter: blur(10px);
+            }
+
+            .live-dot {
+                width: 10px;
+                height: 10px;
+                background: radial-gradient(circle, #00ff88, #00cc66);
+                border-radius: 50%;
+                animation: livePulse 1.5s ease-in-out infinite;
+                box-shadow: 0 0 10px #00ff88;
+            }
+
+            @keyframes livePulse {
+                0%, 100% {
+                    opacity: 1;
+                    transform: scale(1);
+                    box-shadow: 0 0 10px #00ff88;
+                }
+                50% {
+                    opacity: 0.7;
+                    transform: scale(1.2);
+                    box-shadow: 0 0 20px #00ff88;
+                }
+            }
+
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 25px;
+                margin-bottom: 40px;
+            }
+
+            .stat-card {
+                background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(25, 25, 25, 0.95) 100%);
+                backdrop-filter: blur(20px);
+                border-radius: 25px;
+                padding: 35px;
+                text-align: center;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .stat-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(135deg,
+                    rgba(255, 215, 0, 0.05) 0%,
+                    rgba(255, 107, 53, 0.05) 25%,
+                    rgba(0, 255, 136, 0.05) 50%,
+                    rgba(102, 126, 234, 0.05) 75%,
+                    rgba(255, 215, 0, 0.05) 100%);
+                background-size: 400% 400%;
+                animation: cardGlow 6s ease infinite;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                border-radius: 25px;
+            }
+
+            /* XP drop effect on hover */
+            .stat-card::after {
+                content: '+XP';
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                color: #00ff88;
+                font-size: 0.8rem;
+                font-weight: bold;
+                opacity: 0;
+                transform: translateY(10px);
+                transition: all 0.3s ease;
+                text-shadow: 0 0 10px #00ff88;
+            }
+
+            .stat-card:hover::before {
+                opacity: 1;
+            }
+
+            .stat-card:hover::after {
+                opacity: 1;
+                transform: translateY(-5px);
+                animation: xpDrop 0.6s ease-out;
+            }
+
+            .stat-card:hover {
+                transform: translateY(-10px) scale(1.03);
+                box-shadow:
+                    0 25px 50px rgba(0, 0, 0, 0.5),
+                    0 0 30px rgba(255, 215, 0, 0.2);
+                border-color: rgba(255, 215, 0, 0.4);
+                animation: coinShake 0.5s ease-in-out;
+            }
+
+            @keyframes cardGlow {
+                0%, 100% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+            }
+
+            @keyframes xpDrop {
+                0% {
+                    transform: translateY(10px);
+                    opacity: 0;
+                }
+                50% {
+                    transform: translateY(-15px);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-25px);
+                    opacity: 0;
+                }
+            }
+
+            @keyframes coinShake {
+                0%, 100% { transform: translateY(-10px) scale(1.03) rotate(0deg); }
+                25% { transform: translateY(-10px) scale(1.03) rotate(1deg); }
+                75% { transform: translateY(-10px) scale(1.03) rotate(-1deg); }
+            }
+
+            .stat-icon {
+                font-size: 3.5rem;
+                margin-bottom: 20px;
+                filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4));
+                animation: iconFloat 4s ease-in-out infinite;
+                position: relative;
+            }
+
+            .stat-icon::before {
+                content: '💰';
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                font-size: 1rem;
+                opacity: 0;
+                animation: coinBounce 2s ease-in-out infinite;
+            }
+
+            @keyframes iconFloat {
+                0%, 100% {
+                    transform: translateY(0px) rotate(0deg);
+                }
+                25% {
+                    transform: translateY(-5px) rotate(2deg);
+                }
+                75% {
+                    transform: translateY(-3px) rotate(-2deg);
+                }
+            }
+
+            @keyframes coinBounce {
+                0%, 80%, 100% {
+                    opacity: 0;
+                    transform: translateY(0px) scale(0.8);
+                }
+                40% {
+                    opacity: 1;
+                    transform: translateY(-10px) scale(1.2);
+                }
+            }
+
+            .stat-value {
+                font-size: 2.2rem;
+                font-weight: 700;
+                margin-bottom: 8px;
+                font-family: 'Consolas', 'Monaco', monospace;
+            }
+
+            .stat-label {
+                font-size: 1rem;
+                color: #888;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                font-weight: 500;
+            }
+
+            .content-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+                margin-bottom: 30px;
+            }
+
+            .panel {
+                background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(20, 20, 20, 0.95) 100%);
+                backdrop-filter: blur(20px);
+                border-radius: 20px;
+                padding: 30px;
+                border: 1px solid rgba(0, 255, 0, 0.15);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .panel::before {
+                content: '⚔️';
+                position: absolute;
+                top: 10px;
+                right: 15px;
+                font-size: 1.2rem;
+                opacity: 0.3;
+                animation: swordSwing 3s ease-in-out infinite;
+            }
+
+            .panel:nth-child(even)::before {
+                content: '🛡️';
+                animation: shieldGlow 4s ease-in-out infinite;
+            }
+
+            .panel:nth-child(3n)::before {
+                content: '💎';
+                animation: gemSparkle 2s ease-in-out infinite;
+            }
+
+            @keyframes swordSwing {
+                0%, 100% {
+                    transform: rotate(0deg) scale(1);
+                    opacity: 0.3;
+                }
+                50% {
+                    transform: rotate(15deg) scale(1.1);
+                    opacity: 0.6;
+                }
+            }
+
+            @keyframes shieldGlow {
+                0%, 100% {
+                    opacity: 0.3;
+                    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.3));
+                }
+                50% {
+                    opacity: 0.7;
+                    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
+                }
+            }
+
+            @keyframes gemSparkle {
+                0%, 100% {
+                    transform: scale(1) rotate(0deg);
+                    opacity: 0.3;
+                }
+                50% {
+                    transform: scale(1.2) rotate(180deg);
+                    opacity: 0.8;
+                }
+            }
+
+            .panel h3 {
+                margin-bottom: 25px;
+                font-size: 1.6rem;
+                border-bottom: 2px solid rgba(0, 255, 0, 0.3);
+                padding-bottom: 15px;
+                color: #ffffff;
+                font-weight: 600;
+            }
+
+            .flip-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 10px;
+                font-family: 'Consolas', 'Monaco', monospace;
+            }
+
+            .flip-table th,
+            .flip-table td {
+                padding: 15px 12px;
+                text-align: left;
+                border-bottom: 1px solid rgba(0, 255, 0, 0.1);
+            }
+
+            .flip-table th {
+                background: linear-gradient(135deg, rgba(0, 255, 0, 0.1) 0%, rgba(0, 200, 0, 0.1) 100%);
+                font-weight: 600;
+                color: #00ff00;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                font-size: 0.85rem;
+            }
+
+            .flip-table tr {
+                transition: all 0.3s ease;
+            }
+
+            .flip-table tr:hover {
+                background: rgba(0, 255, 0, 0.05);
+                transform: scale(1.01);
+                animation: levelUp 0.3s ease-out;
+            }
+
+            .profit-positive {
+                color: #00ff88;
+                font-weight: 700;
+                text-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
+                position: relative;
+            }
+
+            .profit-positive::after {
+                content: '✨';
+                position: absolute;
+                right: -15px;
+                top: 0;
+                font-size: 0.8rem;
+                animation: profitSparkle 1.5s ease-in-out infinite;
+            }
+
+            @keyframes levelUp {
+                0% {
+                    transform: scale(1.01);
+                    box-shadow: 0 0 0 rgba(0, 255, 0, 0.4);
+                }
+                50% {
+                    transform: scale(1.02);
+                    box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
+                }
+                100% {
+                    transform: scale(1.01);
+                    box-shadow: 0 0 0 rgba(0, 255, 0, 0.4);
+                }
+            }
+
+            /* Trading Skills Styles */
+            .skills-container {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .skill-bar {
+                background: rgba(20, 20, 20, 0.8);
+                border-radius: 10px;
+                padding: 15px;
+                border: 1px solid rgba(255, 215, 0, 0.3);
+            }
+
+            .skill-info {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 8px;
+            }
+
+            .skill-icon {
+                font-size: 1.2rem;
+            }
+
+            .skill-name {
+                font-weight: 600;
+                color: #ffffff;
+            }
+
+            .skill-level {
+                color: #ffd700;
+                font-weight: 700;
+            }
+
+            .skill-progress {
+                height: 12px;
+                background: rgba(0, 0, 0, 0.5);
+                border-radius: 6px;
+                overflow: hidden;
+                margin-bottom: 5px;
+            }
+
+            .skill-fill {
+                height: 100%;
+                background: linear-gradient(90deg, #00ff88, #00cc66);
+                border-radius: 6px;
+                animation: skillProgress 2s ease-out;
+                position: relative;
+            }
+
+            .skill-fill::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+                animation: shimmer 2s infinite;
+            }
+
+            .skill-xp {
+                font-size: 0.8rem;
+                color: #888;
+                text-align: center;
+            }
+
+            @keyframes skillProgress {
+                0% { width: 0%; }
+                100% { width: var(--progress, 50%); }
+            }
+
+            /* Trading Inventory Styles */
+            .inventory-grid {
+                display: grid;
+                grid-template-columns: repeat(7, 1fr);
+                grid-template-rows: repeat(4, 1fr);
+                gap: 3px;
+                max-width: 350px;
+                margin: 0 auto;
+            }
+
+            .inventory-slot {
+                width: 45px;
+                height: 45px;
+                background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+                border: 2px solid #444;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .inventory-slot.filled {
+                border-color: #ffd700;
+                background: linear-gradient(135deg, #3a3a00, #2a2a00);
+                animation: itemGlow 3s ease-in-out infinite;
+            }
+
+            .inventory-slot.filled:hover {
+                transform: scale(1.1);
+                box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            }
+
+            .inventory-slot.empty {
+                border-color: #333;
+            }
+
+            .item-icon {
+                font-size: 1.2rem;
+            }
+
+            .item-quantity {
+                position: absolute;
+                bottom: 2px;
+                right: 2px;
+                font-size: 0.6rem;
+                color: #ffd700;
+                font-weight: bold;
+                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            }
+
+            @keyframes itemGlow {
+                0%, 100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.3); }
+                50% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+            }
+
+            /* Combat Scene Styles */
+            .combat-scene {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px;
+                background: linear-gradient(135deg, rgba(20, 0, 0, 0.3), rgba(0, 20, 0, 0.3));
+                border-radius: 10px;
+                margin-bottom: 15px;
+                position: relative;
+            }
+
+            .trader-character, .market-enemy {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .character-sprite {
+                font-size: 3rem;
+                animation: characterBounce 2s ease-in-out infinite;
+            }
+
+            .trader-character .character-sprite {
+                animation: traderAttack 1.5s ease-in-out infinite;
+            }
+
+            .market-enemy .character-sprite {
+                animation: enemyHurt 2s ease-in-out infinite;
+            }
+
+            .character-name {
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: #ffffff;
+            }
+
+            .hp-bar {
+                width: 80px;
+                height: 8px;
+                background: rgba(0, 0, 0, 0.5);
+                border-radius: 4px;
+                overflow: hidden;
+            }
+
+            .hp-fill {
+                height: 100%;
+                background: linear-gradient(90deg, #00ff00, #88ff00);
+                border-radius: 4px;
+                transition: width 0.5s ease;
+            }
+
+            .enemy-hp {
+                background: linear-gradient(90deg, #ff4444, #ff8888);
+            }
+
+            .combat-effects {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .damage-splat {
+                color: #00ff88;
+                font-weight: bold;
+                font-size: 1.2rem;
+                animation: damageFloat 2s ease-in-out infinite;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            }
+
+            .combat-animation {
+                font-size: 2rem;
+                animation: explosionPulse 1s ease-in-out infinite;
+            }
+
+            .combat-log {
+                background: rgba(0, 0, 0, 0.5);
+                border-radius: 5px;
+                padding: 10px;
+                max-height: 80px;
+                overflow-y: auto;
+            }
+
+            .combat-message {
+                font-size: 0.8rem;
+                color: #cccccc;
+                margin-bottom: 5px;
+                animation: messageAppear 0.5s ease-out;
+            }
+
+            @keyframes characterBounce {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-10px); }
+            }
+
+            @keyframes traderAttack {
+                0%, 70%, 100% { transform: translateX(0px) scale(1); }
+                35% { transform: translateX(10px) scale(1.1); }
+            }
+
+            @keyframes enemyHurt {
+                0%, 80%, 100% { transform: translateX(0px); }
+                10%, 30% { transform: translateX(-5px); }
+                20%, 40% { transform: translateX(5px); }
+            }
+
+            @keyframes damageFloat {
+                0%, 100% { transform: translateY(0px); opacity: 1; }
+                50% { transform: translateY(-15px); opacity: 0.8; }
+            }
+
+            @keyframes explosionPulse {
+                0%, 100% { transform: scale(1); opacity: 0.8; }
+                50% { transform: scale(1.3); opacity: 1; }
+            }
+
+            @keyframes messageAppear {
+                0% { opacity: 0; transform: translateX(-10px); }
+                100% { opacity: 1; transform: translateX(0px); }
+            }
+
+            /* Quest Log Styles */
+            .quest-log {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .quest-item {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                padding: 12px;
+                background: rgba(20, 20, 20, 0.8);
+                border-radius: 8px;
+                border-left: 4px solid transparent;
+                transition: all 0.3s ease;
+            }
+
+            .quest-main {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .quest-item.completed {
+                border-left-color: #00ff88;
+                background: rgba(0, 255, 136, 0.1);
+            }
+
+            .quest-item.in-progress {
+                border-left-color: #ffd700;
+                background: rgba(255, 215, 0, 0.1);
+                animation: questPulse 2s ease-in-out infinite;
+            }
+
+            .quest-item.available {
+                border-left-color: #ff6b35;
+                background: rgba(255, 107, 53, 0.1);
+            }
+
+            .quest-item.locked {
+                border-left-color: #666;
+                background: rgba(100, 100, 100, 0.1);
+                opacity: 0.6;
+            }
+
+            .quest-item:hover {
+                transform: translateX(5px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            }
+
+            .quest-icon {
+                font-size: 1.2rem;
+                min-width: 20px;
+            }
+
+            .quest-title {
+                font-weight: 600;
+                color: #ffffff;
+                flex: 1;
+            }
+
+            .quest-reward, .quest-progress, .quest-requirement {
+                font-size: 0.8rem;
+                color: #888;
+            }
+
+            .quest-progress {
+                color: #ffd700;
+            }
+
+            .quest-progress-bar {
+                width: calc(100% - 35px);
+                height: 12px;
+                background: rgba(0, 0, 0, 0.5);
+                border-radius: 6px;
+                overflow: hidden;
+                margin-left: 35px;
+                max-width: 60%;
+            }
+
+            .quest-bar-fill {
+                height: 100%;
+                background: linear-gradient(90deg, #ffd700, #ffed4e);
+                border-radius: 6px;
+                transition: width 0.8s ease;
+                position: relative;
+                max-width: 100%;
+            }
+
+            .quest-bar-fill::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+                animation: shimmer 2s infinite;
+            }
+
+            @keyframes questPulse {
+                0%, 100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.3); }
+                50% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+            }
+
+            .profit-negative {
+                color: #ff4444;
+                font-weight: 700;
+                text-shadow: 0 0 5px rgba(255, 68, 68, 0.3);
+            }
+
+            .loading {
+                text-align: center;
+                padding: 80px;
+                font-size: 1.4rem;
+                color: #00ff00;
+            }
+
+            .error {
+                background: rgba(255, 68, 68, 0.15);
+                border: 1px solid rgba(255, 68, 68, 0.4);
+                color: #ff8888;
+                padding: 25px;
+                border-radius: 15px;
+                margin: 20px 0;
+                text-align: center;
+            }
+
+            .gp {
+                color: #00ff88;
+                font-weight: 700;
+                text-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
+            }
+
+            .recent-flips {
+                max-height: 450px;
+                overflow-y: auto;
+            }
+
+            .recent-flips::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .recent-flips::-webkit-scrollbar-track {
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 4px;
+            }
+
+            .recent-flips::-webkit-scrollbar-thumb {
+                background: rgba(0, 255, 0, 0.3);
+                border-radius: 4px;
+            }
+
+            .recent-flips::-webkit-scrollbar-thumb:hover {
+                background: rgba(0, 255, 0, 0.5);
+            }
+
+            .goal-progress {
+                margin-top: 25px;
+            }
+
+            .progress-bar {
+                width: 100%;
+                height: 25px;
+                background: rgba(0, 0, 0, 0.5);
+                border-radius: 15px;
+                overflow: hidden;
+                margin: 15px 0;
+                border: 1px solid rgba(0, 255, 0, 0.2);
+                box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+            }
+
+            .progress-fill {
+                height: 100%;
+                background: linear-gradient(90deg, #00ff00, #00cc00, #009900);
+                transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.85rem;
+                font-weight: 700;
+                color: #000;
+                text-shadow: none;
+                position: relative;
+                overflow: hidden;
+                max-width: 100%;
+            }
+
+            .progress-fill::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                animation: shimmer 2s infinite;
+            }
+
+            .progress-fill::after {
+                content: '💰 💰 💰';
+                position: absolute;
+                top: -20px;
+                left: 0;
+                width: 100%;
+                font-size: 0.8rem;
+                animation: goldRain 3s ease-in-out infinite;
+                opacity: 0.6;
+            }
+
+            @keyframes shimmer {
+                0% { left: -100%; }
+                100% { left: 100%; }
+            }
+
+            @keyframes goldRain {
+                0%, 100% {
+                    transform: translateY(-10px);
+                    opacity: 0;
+                }
+                50% {
+                    transform: translateY(5px);
+                    opacity: 0.6;
+                }
+            }
+
+            .goal-text {
+                font-size: 1.1rem;
+                margin: 10px 0;
+                color: #ccc;
+            }
+
+        </style>
+    </head>
+    <body>
+    <div class="container">
+        <div class="header">
+            <h1>💼 NICKYWEST COPILOT TRADES</h1>
+            <p>Advanced Grand Exchange Trading Analytics</p>
+            <div class="live-indicator">
+                <div class="live-dot"></div>
+                LIVE PORTFOLIO
+            </div>
         </div>
-    </div>
 
-    <div id="loading" class="loading">
-        💼 Initializing Trading Dashboard...
-    </div>
-
-    <div id="error" class="error" style="display: none;">
-        ⚠️ Connection Error: Unable to load portfolio data. Please ensure flips.json exists in the data directory.
-    </div>
-
-    <div id="dashboard" style="display: none;">
-        <!-- Stats Grid at Top -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">🏦</div>
-                <div class="stat-value gp" id="current-networth">0 GP</div>
-                <div class="stat-label">Portfolio Value</div>
-                <div class="growth-indicator" id="growth-indicator">+0% total growth</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon">📈</div>
-                <div class="stat-value gp" id="trading-profit">0 GP</div>
-                <div class="stat-label">Trading P&L</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon">🔄</div>
-                <div class="stat-value" id="total-flips">0</div>
-                <div class="stat-label">Executed Trades</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon">⚡</div>
-                <div class="stat-value gp" id="avg-profit">0 GP</div>
-                <div class="stat-label">Avg Trade P&L</div>
-            </div>
+        <div id="loading" class="loading">
+            💼 Initializing Trading Dashboard...
         </div>
 
-        <!-- Progress Section -->
-        <div class="panel">
-            <h3>🎯 2.1B GP TARGET PROGRESS</h3>
-            <div class="goal-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-fill">0%</div>
+        <div id="error" class="error" style="display: none;">
+            ⚠️ Connection Error: Unable to load portfolio data. Please ensure flips.json exists in the data directory.
+        </div>
+
+        <div id="dashboard" style="display: none;">
+            <!-- Stats Grid at Top -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🏦</div>
+                    <div class="stat-value gp" id="current-networth">0 GP</div>
+                    <div class="stat-label">Portfolio Value</div>
+                    <div class="growth-indicator" id="growth-indicator">+0% total growth</div>
                 </div>
-                <p class="goal-text">Current Portfolio: <span class="gp" id="current-gp">0 GP</span></p>
-                <p class="goal-text">Target: <span class="gp">2,147,000,000 GP</span></p>
-                <p class="goal-text">Remaining: <span class="gp" id="remaining-gp">2,147,000,000 GP</span></p>
-            </div>
-        </div>
 
-        <!-- Chart Section -->
-        <div class="panel">
-            <h3>📈 DAILY PROFIT CHART</h3>
-            <div class="chart-container">
-                <canvas id="profitChart"></canvas>
-            </div>
-        </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-value gp" id="trading-profit">0 GP</div>
+                    <div class="stat-label">Trading P&L</div>
+                </div>
 
-        <!-- Two Column Data Section -->
-        <div class="content-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🔄</div>
+                    <div class="stat-value" id="total-flips">0</div>
+                    <div class="stat-label">Executed Trades</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-value gp" id="avg-profit">0 GP</div>
+                    <div class="stat-label">Avg Trade P&L</div>
+                </div>
+            </div>
+
+            <!-- Progress Section -->
             <div class="panel">
-                <h3>🔥 TOP PERFORMING ASSETS</h3>
-                <div class="recent-flips">
-                    <table class="flip-table">
-                        <thead>
-                        <tr>
-                            <th>Asset</th>
-                            <th>Total P&L</th>
-                            <th>Trades</th>
-                        </tr>
-                        </thead>
-                        <tbody id="top-items">
-                        <!-- Populated by JavaScript -->
-                        </tbody>
-                    </table>
+                <h3>🎯 2.1B GP TARGET PROGRESS</h3>
+                <div class="goal-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill">0%</div>
+                    </div>
+                    <p class="goal-text">Current Portfolio: <span class="gp" id="current-gp">0 GP</span></p>
+                    <p class="goal-text">Target: <span class="gp">2,147,000,000 GP</span></p>
+                    <p class="goal-text">Remaining: <span class="gp" id="remaining-gp">2,147,000,000 GP</span></p>
                 </div>
             </div>
 
+            <!-- Chart Section -->
             <div class="panel">
-                <h3>📊 RECENT TRANSACTIONS</h3>
-                <div class="recent-flips">
-                    <table class="flip-table">
-                        <thead>
-                        <tr>
-                            <th>Asset</th>
-                            <th>P&L</th>
-                            <th>Timestamp</th>
-                        </tr>
-                        </thead>
-                        <tbody id="recent-flips">
-                        <!-- Populated by JavaScript -->
-                        </tbody>
-                    </table>
+                <h3>📈 DAILY PROFIT CHART</h3>
+                <div class="chart-container">
+                    <canvas id="profitChart"></canvas>
                 </div>
             </div>
-        </div>
 
-        <!-- Flipping Copilot Info Panel -->
-        <div class="panel">
-            <h3>🚀 FLIPPING COPILOT</h3>
-            <div class="copilot-info-content">
-                <div class="copilot-brand">
-                    <div class="brand-icon">🚀</div>
-                    <div class="brand-text">
-                        <h4>Flipping Copilot</h4>
-                        <p>AI-powered insights</p>
+            <!-- Trading Skills Progress -->
+            <div class="panel">
+                <h3>📊 TRADING SKILLS</h3>
+                <div class="skills-container">
+                    <div class="skill-bar">
+                        <div class="skill-info">
+                            <span class="skill-icon">💰</span>
+                            <span class="skill-name">Flipping</span>
+                            <span class="skill-level" id="flipping-level">Level 1</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-fill" id="flipping-progress" style="width: 0.139%"></div>
+                        </div>
+                        <div class="skill-xp" id="flipping-xp">139 / 1,000,000 Flips</div>
                     </div>
                 </div>
-                <div class="trade-note">
-                    💡 Note: Flips are made using 5-30 minute mode
+            </div>
+
+            <!-- Trading Combat Scene -->
+            <div class="panel">
+                <h3>⚔️ MARKET BATTLE</h3>
+                <div class="combat-scene">
+                    <div class="trader-character">
+                        <div class="character-sprite">🧙‍♂️</div>
+                        <div class="character-name">Trader Nick</div>
+                        <div class="hp-bar">
+                            <div class="hp-fill" style="width: 85%"></div>
+                        </div>
+                    </div>
+
+                    <div class="combat-effects">
+                        <div class="damage-splat" id="highest-win">+0 GP</div>
+                        <div class="combat-animation">💥</div>
+                    </div>
+
+                    <div class="market-enemy">
+                        <div class="character-sprite">📉</div>
+                        <div class="character-name">Market Volatility</div>
+                        <div class="hp-bar">
+                            <div class="hp-fill enemy-hp" style="width: 25%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="combat-log">
+                    <div class="combat-message" id="combat-message">Trader Nick prepares for battle...</div>
                 </div>
             </div>
-        </div>
 
-        <!-- Action Cards -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <a href="https://www.flippingcopilot.com/" target="_blank" class="card-link">
-                    <div class="stat-icon website-icon">🌍</div>
-                    <div class="stat-label">Website</div>
-                </a>
+            <!-- Trading Quest Log -->
+            <div class="panel">
+                <h3>📜 TRADING QUESTS</h3>
+                <div class="quest-log">
+                    <div class="quest-item in-progress">
+                        <span class="quest-icon">💰</span>
+                        <span class="quest-title">Max Cash Achievement</span>
+                        <span class="quest-progress" id="max-cash-progress">Progress: 217.5M / 2,147M GP</span>
+                    </div>
+                    <div class="quest-item in-progress">
+                        <span class="quest-icon">🔄</span>
+                        <span class="quest-title">Master Flipper</span>
+                        <span class="quest-progress" id="master-flipper-progress">Progress: 139 / 10,000 Flips</span>
+                    </div>
+                    <div class="quest-item in-progress">
+                        <div class="quest-main">
+                            <span class="quest-icon">🏆</span>
+                            <span class="quest-title">500M Club</span>
+                            <span class="quest-progress" id="club-500m-progress">Progress: 218M / 500M GP</span>
+                        </div>
+                        <div class="quest-progress-bar">
+                            <div class="quest-bar-fill" id="club-500m-bar" style="width: 43.6%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-grid">
+                <div class="panel">
+                    <h3>🔥 TOP PERFORMING ASSETS</h3>
+                    <div class="recent-flips">
+                        <table class="flip-table">
+                            <thead>
+                            <tr>
+                                <th>Asset</th>
+                                <th>Total P&L</th>
+                                <th>Trades</th>
+                            </tr>
+                            </thead>
+                            <tbody id="top-items">
+                            <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>📊 RECENT TRANSACTIONS</h3>
+                    <div class="recent-flips">
+                        <table class="flip-table">
+                            <thead>
+                            <tr>
+                                <th>Asset</th>
+                                <th>P&L</th>
+                                <th>Timestamp</th>
+                            </tr>
+                            </thead>
+                            <tbody id="recent-flips">
+                            <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
-            <div class="stat-card">
-                <a href="https://discord.gg/Q9DrMsb5J2" target="_blank" class="card-link">
-                    <div class="stat-icon discord-icon">🎮</div>
-                    <div class="stat-label">Discord</div>
-                </a>
+            <!-- Flipping Copilot Info Panel -->
+            <div class="panel">
+                <h3>🚀 FLIPPING COPILOT</h3>
+                <div class="copilot-info-content">
+                    <div class="copilot-brand">
+                        <div class="brand-icon">🚀</div>
+                        <div class="brand-text">
+                            <h4>Flipping Copilot</h4>
+                            <p>AI-powered insights</p>
+                        </div>
+                    </div>
+                    <div class="trade-note">
+                        💡 Note: Flips are made using 5-30 minute mode
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <a href="https://www.flippingcopilot.com/" target="_blank" class="card-link">
+                        <div class="stat-icon website-icon">🌍</div>
+                        <div class="stat-label">Website</div>
+                    </a>
+                </div>
+
+                <div class="stat-card">
+                    <a href="https://discord.gg/Q9DrMsb5J2" target="_blank" class="card-link">
+                        <div class="stat-icon discord-icon">🎮</div>
+                        <div class="stat-label">Discord</div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -645,10 +1388,35 @@
         // Update goal progress - use net worth for goal calculation
         const goal = 2147000000; // 2.1B GP
         const progressPercent = (currentNetWorth / goal) * 100;
-        document.getElementById('progress-fill').style.width = Math.min(progressPercent, 100) + '%';
+        const clampedProgress = Math.min(progressPercent, 100); // Cap at 100%
+        document.getElementById('progress-fill').style.width = clampedProgress + '%';
         document.getElementById('progress-fill').textContent = progressPercent.toFixed(3) + '%';
         document.getElementById('current-gp').textContent = formatGP(currentNetWorth);
         document.getElementById('remaining-gp').textContent = formatGP(goal - currentNetWorth);
+
+        // Update Trading Skills (Flipping XP based on flip count)
+        const flipCount = meta.totalFlips;
+        const maxFlips = 1000000;
+        const flippingLevel = Math.floor(flipCount / 10000) + 1; // Level up every 10k flips
+        const flippingProgress = (flipCount / maxFlips) * 100;
+
+        document.getElementById('flipping-level').textContent = `Level ${flippingLevel}`;
+        document.getElementById('flipping-progress').style.width = flippingProgress + '%';
+        document.getElementById('flipping-xp').textContent = `${flipCount.toLocaleString()} / ${maxFlips.toLocaleString()} Flips`;
+
+        // Update Market Battle with highest win of the day
+        const today = new Date().toDateString();
+        const todaysFlips = flips.filter(flip => new Date(flip.sellTime).toDateString() === today);
+        const highestWin = todaysFlips.length > 0 ? Math.max(...todaysFlips.map(flip => flip.profit)) : 0;
+
+        document.getElementById('highest-win').textContent = `+${formatGP(highestWin)}`;
+        const highestWinItem = todaysFlips.find(flip => flip.profit === highestWin);
+        if (highestWinItem) {
+            document.getElementById('combat-message').textContent = `Trader Nick deals massive damage with ${highestWinItem.item}! Critical hit: ${formatGP(highestWin)}!`;
+        }
+
+        // Update Quest Progress
+        updateQuestProgress(currentNetWorth, flipCount);
 
         // Create daily profit chart
         createDailyProfitChart(flips, startingCash);
@@ -697,8 +1465,26 @@
         document.getElementById('dashboard').style.display = 'block';
     }
 
+    function updateQuestProgress(netWorth, flipCount) {
+        // Max Cash Achievement
+        const maxCashProgress = (netWorth / 2147000000) * 100;
+        document.getElementById('max-cash-progress').textContent =
+            `Progress: ${formatGP(netWorth)} / 2,147M GP`;
+
+        // Master Flipper
+        document.getElementById('master-flipper-progress').textContent =
+            `Progress: ${flipCount.toLocaleString()} / 10,000 Flips`;
+
+        // 500M Club
+        const club500mProgress = (netWorth / 500000000) * 100;
+        const clampedClubProgress = Math.min(club500mProgress, 100);
+        document.getElementById('club-500m-progress').textContent =
+            `Progress: ${formatGP(netWorth)} / 500M GP`;
+        document.getElementById('club-500m-bar').style.width = clampedClubProgress + '%';
+    }
+
     function createDailyProfitChart(flips, startingCash) {
-        // Group flips by day and calculate cumulative profit
+        // Group flips by day and calculate daily profit
         const dailyData = {};
 
         flips.forEach(flip => {
@@ -709,16 +1495,21 @@
             dailyData[date] += flip.profit;
         });
 
-        // Sort dates and create cumulative data
+        // Sort dates and keep only the most recent 14 days
         const sortedDates = Object.keys(dailyData).sort((a, b) => new Date(a) - new Date(b));
-        const chartData = [];
-        let cumulativeProfit = 0;
+        const recentDates = sortedDates.slice(-14); // Keep last 14 days
 
-        sortedDates.forEach((date, index) => {
-            cumulativeProfit += dailyData[date];
+        const chartData = [];
+
+        recentDates.forEach((date, index) => {
+            const dailyProfit = dailyData[date];
+            const dayLabel = recentDates.length <= 7 ?
+                `Day ${index + 1}` :
+                new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
             chartData.push({
-                x: `Day ${index + 1}`,
-                y: cumulativeProfit / 1000000 // Convert to millions for better display
+                x: dayLabel,
+                y: dailyProfit / 1000000 // Convert to millions for better display
             });
         });
 
@@ -756,7 +1547,8 @@
                             borderColor: 'rgba(0, 255, 0, 0.3)'
                         },
                         ticks: {
-                            color: '#888888'
+                            color: '#888888',
+                            maxRotation: 45
                         }
                     },
                     y: {
@@ -769,7 +1561,8 @@
                             callback: function(value) {
                                 return value.toFixed(1) + 'M';
                             }
-                        }
+                        },
+                        beginAtZero: true
                     }
                 },
                 elements: {

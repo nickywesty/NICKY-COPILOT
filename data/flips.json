@@ -1,20 +1,69 @@
 {
   "meta": {
-    "totalFlips": 139,
-    "totalTradingProfit": 11437250,
+    "totalFlips": 145,
+    "totalTradingProfit": 12173269,
     "startingCash": 207400000,
-    "currentNetWorth": 218837250,
-    "uniqueItems": 89,
-    "averageProfitPerFlip": 82282.37410071942,
-    "lastUpdated": "2025-08-08T01:10:27.778Z"
+    "currentNetWorth": 219573269,
+    "uniqueItems": 91,
+    "averageProfitPerFlip": 83953.57931034482,
+    "lastUpdated": "2025-08-08T12:06:40.299Z"
   },
   "flips": [
     {
       "item": "Crystal armour seed",
-      "profit": 117570,
-      "sellTime": "2025-08-08T01:06:05Z",
+      "profit": 348308,
+      "sellTime": "2025-08-08T02:24:24Z",
       "account": "Ormeth",
-      "status": "SELLING"
+      "status": "FINISHED"
+    },
+    {
+      "item": "Masori body",
+      "profit": 315019,
+      "sellTime": "2025-08-08T02:06:34Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Amulet of avarice",
+      "profit": 14252,
+      "sellTime": "2025-08-08T01:33:52Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Wilderness crabs teleport",
+      "profit": 63996,
+      "sellTime": "2025-08-08T01:27:13Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Dharok's armour set",
+      "profit": 75820,
+      "sellTime": "2025-08-08T01:24:26Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Law rune",
+      "profit": 2586,
+      "sellTime": "2025-08-08T01:24:16Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Runite bolts",
+      "profit": 13626,
+      "sellTime": "2025-08-08T01:17:04Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Rune arrow",
+      "profit": 24990,
+      "sellTime": "2025-08-08T01:16:02Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
     },
     {
       "item": "Echo crystal",
@@ -57,13 +106,6 @@
       "sellTime": "2025-08-08T00:48:29Z",
       "account": "Ormeth",
       "status": "FINISHED"
-    },
-    {
-      "item": "Amulet of avarice",
-      "profit": 5008,
-      "sellTime": "2025-08-08T00:43:13Z",
-      "account": "Ormeth",
-      "status": "SELLING"
     },
     {
       "item": "Black chinchompa",
