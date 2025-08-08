@@ -1374,7 +1374,7 @@
         const { meta, flips } = data;
 
         // Calculate growth percentage
-        const startingCash = meta.startingCash || 207400000;
+        const startingCash = meta.startingCash || 211026040;
         const currentNetWorth = meta.currentNetWorth || meta.totalProfit;
         const growthPercent = ((currentNetWorth - startingCash) / startingCash * 100).toFixed(1);
 
@@ -1404,15 +1404,23 @@
         document.getElementById('flipping-progress').style.width = flippingProgress + '%';
         document.getElementById('flipping-xp').textContent = `${flipCount.toLocaleString()} / ${maxFlips.toLocaleString()} Flips`;
 
-        // Update Market Battle with highest win of the day
-        const today = new Date().toDateString();
-        const todaysFlips = flips.filter(flip => new Date(flip.sellTime).toDateString() === today);
-        const highestWin = todaysFlips.length > 0 ? Math.max(...todaysFlips.map(flip => flip.profit)) : 0;
+        // Update Market Battle with highest performing asset (by total profit)
+        const itemStats = {};
+        flips.forEach(flip => {
+            if (!itemStats[flip.item]) {
+                itemStats[flip.item] = { totalProfit: 0, count: 0 };
+            }
+            itemStats[flip.item].totalProfit += flip.profit;
+            itemStats[flip.item].count += 1;
+        });
 
-        document.getElementById('highest-win').textContent = `+${formatGP(highestWin)}`;
-        const highestWinItem = todaysFlips.find(flip => flip.profit === highestWin);
-        if (highestWinItem) {
-            document.getElementById('combat-message').textContent = `Trader Nick deals massive damage with ${highestWinItem.item}! Critical hit: ${formatGP(highestWin)}!`;
+        const topPerformingAsset = Object.entries(itemStats)
+            .sort((a, b) => b[1].totalProfit - a[1].totalProfit)[0];
+
+        if (topPerformingAsset) {
+            const [itemName, stats] = topPerformingAsset;
+            document.getElementById('highest-win').textContent = `+${formatGP(stats.totalProfit)}`;
+            document.getElementById('combat-message').textContent = `Trader Nick's top weapon: ${itemName}! Total damage dealt: ${formatGP(stats.totalProfit)} across ${stats.count} trades!`;
         }
 
         // Update Quest Progress
