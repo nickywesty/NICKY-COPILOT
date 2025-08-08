@@ -1,0 +1,4 @@
+account_id,item_name,status,opened_quantity,spent,closed_quantity,received_post_tax,tax_paid,profit,opened_time,closed_time,updated_time,flip_hash
+Ormeth,Masori body,BUYING,1,41823460,0,0,0,0,2025-08-07T20:07:34Z,,,8b0ec45ff9f157e2e5225831084b3a212ecf114a950735febe5e14dd84f00a1d
+Ormeth,Quetzal feed,BUYING,73,476106,0,0,0,0,2025-08-07T20:21:16Z,,,eb2d55aaabca189092e990be4718b6ea2bd0978ff54a423acafb2b09c98a300d
+Ormeth,Viggora's chainmace (u),BUYING,1,5655202,0,0,0,0,2025-08-07T20:07:34Z,,,f9d2c0c9ad8aa79c2e2780a0e492f9e43af486085f5126e7136ee72475ef2d1b

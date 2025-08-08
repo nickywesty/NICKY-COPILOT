@@ -526,31 +526,42 @@
         </div>
 
         <!-- Footer -->
-        <div class="footer-section">
-            <div class="footer-box">
-                <div class="footer-header">
-                    <div class="copilot-icon">🚀</div>
-                    <div class="copilot-title">
-                        <h3>Flipping Copilot</h3>
-                        <p>AI-Powered Trading</p>
+        <div class="panel">
+            <h3>🚀 FLIPPING COPILOT</h3>
+            <div class="copilot-content">
+                <div class="copilot-header">
+                    <div class="copilot-brand">
+                        <div class="brand-icon">🚀</div>
+                        <div class="brand-info">
+                            <h4>Flipping Copilot</h4>
+                            <p>AI-Powered Trading</p>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <div class="button-container">
+                            <div class="button-box">
+                                <a href="https://www.flippingcopilot.com/" target="_blank" class="mini-btn website-btn">
+                                    🌐 Website
+                                </a>
+                            </div>
+                        </div>
+                        <div class="button-container">
+                            <div class="button-box">
+                                <a href="https://discord.gg/Q9DrMsb5J2" target="_blank" class="mini-btn discord-btn">
+                                    💬 Discord
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="footer-buttons">
-                    <a href="https://www.flippingcopilot.com/" target="_blank" class="footer-btn website-btn">
-                        🌐 Website
-                    </a>
-                    <a href="https://discord.gg/Q9DrMsb5J2" target="_blank" class="footer-btn discord-btn">
-                        💬 Discord
-                    </a>
-                </div>
-
-                <div class="footer-note">
-                    <div class="note-icon">⚡</div>
-                    <div class="note-text">
-                        <strong>Trading Strategy</strong><br>
-                        Utilizing advanced 5-30 minute flip cycles with extended 8-hour overnight positions for maximum market efficiency
+                <div class="strategy-note">
+                    <div class="note-header">
+                        <span class="note-icon">⚡</span>
+                        <span class="note-title">Trading Strategy</span>
                     </div>
+                    <p>Utilizing advanced 5-30 minute flip cycles with extended 8-hour overnight positions for maximum market efficiency</p>
                 </div>
             </div>
         </div>
@@ -578,16 +589,44 @@
 
     async function loadFlipData() {
         try {
-            const response = await fetch('data/flips.json');
-            if (!response.ok) {
-                throw new Error('Failed to load data');
+            // Try multiple paths for different environments
+            const possiblePaths = [
+                './data/flips.json',
+                '/data/flips.json',
+                'data/flips.json'
+            ];
+
+            let data = null;
+            let loadedFrom = '';
+
+            for (const path of possiblePaths) {
+                try {
+                    const response = await fetch(path);
+                    if (response.ok) {
+                        data = await response.json();
+                        loadedFrom = path;
+                        break;
+                    }
+                } catch (e) {
+                    continue;
+                }
             }
-            const data = await response.json();
+
+            if (!data) {
+                throw new Error('No data file found in any location');
+            }
+
+            console.log(`✅ Loaded data from: ${loadedFrom}`);
             displayDashboard(data);
         } catch (error) {
             console.error('Error loading flip data:', error);
             document.getElementById('loading').style.display = 'none';
-            document.getElementById('error').style.display = 'block';
+            const errorEl = document.getElementById('error');
+            errorEl.style.display = 'block';
+            errorEl.innerHTML = `
+                ⚠️ <strong>Connection Error:</strong> Unable to load portfolio data.<br>
+                <small>Please ensure flips.json exists in the data directory and run the parser first.</small>
+            `;
         }
     }
 

@@ -1,0 +1,832 @@
+{
+  "meta": {
+    "totalFlips": 117,
+    "totalTradingProfit": 10096258,
+    "startingCash": 207400000,
+    "currentNetWorth": 217496258,
+    "uniqueItems": 83,
+    "averageProfitPerFlip": 86292.80341880342,
+    "lastUpdated": "2025-08-08T00:35:40.171Z"
+  },
+  "flips": [
+    {
+      "item": "Iron ore",
+      "profit": 12968,
+      "sellTime": "2025-08-07T20:50:46Z",
+      "account": "Ormeth",
+      "status": "SELLING"
+    },
+    {
+      "item": "Saradomin brew(4)",
+      "profit": 69840,
+      "sellTime": "2025-08-07T20:41:58Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Rune arrow",
+      "profit": 4808,
+      "sellTime": "2025-08-07T20:36:12Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Enhanced crystal teleport seed",
+      "profit": 476259,
+      "sellTime": "2025-08-07T20:15:55Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Antler guard",
+      "profit": 64217,
+      "sellTime": "2025-08-07T20:13:23Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Mahogany logs",
+      "profit": 3654,
+      "sellTime": "2025-08-07T20:11:49Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Coal",
+      "profit": 39000,
+      "sellTime": "2025-08-07T19:41:39Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Adamant dart",
+      "profit": 55000,
+      "sellTime": "2025-08-07T19:21:30Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Soul rune",
+      "profit": 125000,
+      "sellTime": "2025-08-07T19:16:01Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Berserker ring",
+      "profit": 105249,
+      "sellTime": "2025-08-07T19:11:52Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Manta ray",
+      "profit": 15444,
+      "sellTime": "2025-08-07T19:06:59Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Runite bolts",
+      "profit": 33000,
+      "sellTime": "2025-08-07T18:54:15Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Death rune",
+      "profit": 50000,
+      "sellTime": "2025-08-07T18:49:07Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Amethyst arrow",
+      "profit": 44000,
+      "sellTime": "2025-08-07T18:33:04Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Revenant ether",
+      "profit": 30000,
+      "sellTime": "2025-08-07T18:24:35Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Eclipse moon helm",
+      "profit": 14741,
+      "sellTime": "2025-08-07T18:22:35Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Armadyl crossbow",
+      "profit": 176296,
+      "sellTime": "2025-08-07T18:20:28Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Obsidian platelegs",
+      "profit": 26736,
+      "sellTime": "2025-08-07T18:19:04Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Amulet of avarice",
+      "profit": 34320,
+      "sellTime": "2025-08-07T18:03:01Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Chaos rune",
+      "profit": 22311,
+      "sellTime": "2025-08-07T17:58:59Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Sunfire fanatic cuirass",
+      "profit": 129016,
+      "sellTime": "2025-08-07T17:55:54Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Abyssal dagger (p++)",
+      "profit": 45630,
+      "sellTime": "2025-08-07T17:51:32Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Dragon bones",
+      "profit": 5322,
+      "sellTime": "2025-08-07T17:35:11Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Nature rune",
+      "profit": 36000,
+      "sellTime": "2025-08-07T17:33:32Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Demon tear",
+      "profit": 65000,
+      "sellTime": "2025-08-07T17:20:07Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Dragonfire shield",
+      "profit": 92424,
+      "sellTime": "2025-08-07T17:18:20Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Law rune",
+      "profit": 36000,
+      "sellTime": "2025-08-07T17:15:08Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Masori mask (f)",
+      "profit": 265096,
+      "sellTime": "2025-08-07T16:27:26Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Blood rune",
+      "profit": 75000,
+      "sellTime": "2025-08-07T16:24:58Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Zulrah's scales",
+      "profit": 120000,
+      "sellTime": "2025-08-07T16:20:25Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Nightmare staff",
+      "profit": 206184,
+      "sellTime": "2025-08-07T16:19:47Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Hydra leather",
+      "profit": 261182,
+      "sellTime": "2025-08-07T16:13:44Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Cannonball",
+      "profit": 55000,
+      "sellTime": "2025-08-07T15:49:29Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Burnt page",
+      "profit": 26772,
+      "sellTime": "2025-08-07T15:21:42Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Justiciar legguards",
+      "profit": 144408,
+      "sellTime": "2025-08-07T14:45:56Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Death rune",
+      "profit": 50000,
+      "sellTime": "2025-08-07T14:40:05Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Adamant bolts",
+      "profit": 14676,
+      "sellTime": "2025-08-07T14:22:35Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Astral rune",
+      "profit": 50000,
+      "sellTime": "2025-08-07T14:21:37Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Aether catalyst",
+      "profit": 144666,
+      "sellTime": "2025-08-07T14:05:28Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Coal",
+      "profit": 15294,
+      "sellTime": "2025-08-07T13:59:33Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Dragon bones",
+      "profit": 31890,
+      "sellTime": "2025-08-07T13:43:18Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Virtus robe top",
+      "profit": 312793,
+      "sellTime": "2025-08-07T13:30:59Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Rune arrow",
+      "profit": 55000,
+      "sellTime": "2025-08-07T13:20:22Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Chaos rune",
+      "profit": 36000,
+      "sellTime": "2025-08-07T13:05:52Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Obsidian platelegs",
+      "profit": 1173196,
+      "sellTime": "2025-08-07T11:43:45Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Dragon dart tip",
+      "profit": 564652,
+      "sellTime": "2025-08-07T11:43:45Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Dragon bones",
+      "profit": 84870,
+      "sellTime": "2025-08-07T11:43:45Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Superantipoison(4)",
+      "profit": 10350,
+      "sellTime": "2025-08-07T11:43:45Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Runite bolts",
+      "profit": 4275,
+      "sellTime": "2025-08-07T11:43:45Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Zulrah's scales",
+      "profit": 120000,
+      "sellTime": "2025-08-07T02:12:55Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Sanguinesti staff (uncharged)",
+      "profit": 312902,
+      "sellTime": "2025-08-07T02:12:55Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Dharok's greataxe",
+      "profit": 47482,
+      "sellTime": "2025-08-07T01:59:54Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Death rune",
+      "profit": 50000,
+      "sellTime": "2025-08-07T01:29:38Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Coal",
+      "profit": 52000,
+      "sellTime": "2025-08-07T01:25:31Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Chaos rune",
+      "profit": 36000,
+      "sellTime": "2025-08-07T01:22:12Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Steel bar",
+      "profit": 38880,
+      "sellTime": "2025-08-06T21:03:10Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Gold bar",
+      "profit": 10000,
+      "sellTime": "2025-08-06T20:20:36Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Dragon crossbow",
+      "profit": 124515,
+      "sellTime": "2025-08-06T20:12:24Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Divine ranging potion(4)",
+      "profit": 138460,
+      "sellTime": "2025-08-06T20:03:48Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Abyssal dagger (p++)",
+      "profit": 62400,
+      "sellTime": "2025-08-06T20:02:18Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Ahrim's robeskirt",
+      "profit": 41546,
+      "sellTime": "2025-08-06T20:00:08Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Zulrah's scales",
+      "profit": 56452,
+      "sellTime": "2025-08-06T19:58:17Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Rune knife",
+      "profit": 12664,
+      "sellTime": "2025-08-06T19:53:58Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Dragon pickaxe",
+      "profit": 28322,
+      "sellTime": "2025-08-06T19:52:29Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Cannonball",
+      "profit": 8157,
+      "sellTime": "2025-08-06T19:52:25Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Soul rune",
+      "profit": 32048,
+      "sellTime": "2025-08-06T19:46:38Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Ankou top",
+      "profit": 210132,
+      "sellTime": "2025-08-06T19:46:18Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Coal",
+      "profit": 24798,
+      "sellTime": "2025-08-06T19:44:40Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Looting bag note",
+      "profit": 12673,
+      "sellTime": "2025-08-06T19:39:04Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Zulrah's scales",
+      "profit": 5322,
+      "sellTime": "2025-08-06T19:38:34Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Law rune",
+      "profit": 38496,
+      "sellTime": "2025-08-06T19:38:22Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Diamond bolts (e)",
+      "profit": 4743,
+      "sellTime": "2025-08-06T19:33:37Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Eclipse moon chestplate",
+      "profit": 63518,
+      "sellTime": "2025-08-06T19:30:25Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Amulet of fury",
+      "profit": 194140,
+      "sellTime": "2025-08-06T19:18:07Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Fremennik kilt",
+      "profit": 48239,
+      "sellTime": "2025-08-06T19:17:53Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Saradomin brew(4)",
+      "profit": 132000,
+      "sellTime": "2025-08-06T19:12:31Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Blue moon tassets",
+      "profit": 148216,
+      "sellTime": "2025-08-06T18:51:08Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Amulet of fury",
+      "profit": 25690,
+      "sellTime": "2025-08-06T18:42:03Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Echo crystal",
+      "profit": 26775,
+      "sellTime": "2025-08-06T18:41:24Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Cape of skulls",
+      "profit": 75279,
+      "sellTime": "2025-08-06T18:41:20Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Dragon felling axe",
+      "profit": 32758,
+      "sellTime": "2025-08-06T18:39:58Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Amethyst broad bolts",
+      "profit": 9308,
+      "sellTime": "2025-08-06T18:39:58Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Rune dart",
+      "profit": 73896,
+      "sellTime": "2025-08-06T18:31:04Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Sanguinesti staff (uncharged)",
+      "profit": 312158,
+      "sellTime": "2025-08-06T18:30:13Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Lava rune",
+      "profit": 36000,
+      "sellTime": "2025-08-06T18:29:12Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Viggora's chainmace (u)",
+      "profit": 78642,
+      "sellTime": "2025-08-06T18:25:52Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Ring of the gods",
+      "profit": 32100,
+      "sellTime": "2025-08-06T18:21:39Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Mahogany logs",
+      "profit": 11724,
+      "sellTime": "2025-08-06T18:17:32Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Ankou mask",
+      "profit": 140560,
+      "sellTime": "2025-08-06T18:09:14Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Rune arrow",
+      "profit": 33000,
+      "sellTime": "2025-08-06T18:04:40Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Warrior ring",
+      "profit": 4986,
+      "sellTime": "2025-08-06T18:03:07Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Guardian boots",
+      "profit": 126971,
+      "sellTime": "2025-08-06T18:01:37Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Ardougne teleport",
+      "profit": 12701,
+      "sellTime": "2025-08-06T17:57:39Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Armadyl helmet",
+      "profit": 251938,
+      "sellTime": "2025-08-06T17:52:29Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Trouver parchment",
+      "profit": 184989,
+      "sellTime": "2025-08-06T17:51:49Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Coal",
+      "profit": 23670,
+      "sellTime": "2025-08-06T17:40:31Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Blood rune",
+      "profit": 50000,
+      "sellTime": "2025-08-06T17:39:27Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Toktz-ket-xil",
+      "profit": 68201,
+      "sellTime": "2025-08-06T17:31:59Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Revenant ether",
+      "profit": 30000,
+      "sellTime": "2025-08-06T17:31:32Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Occult necklace",
+      "profit": 52920,
+      "sellTime": "2025-08-06T17:28:45Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Hydra leather",
+      "profit": 72428,
+      "sellTime": "2025-08-06T17:22:50Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Amethyst dart",
+      "profit": 33000,
+      "sellTime": "2025-08-06T17:07:53Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Adamant dart",
+      "profit": 44000,
+      "sellTime": "2025-08-06T16:44:43Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Smoke rune",
+      "profit": 69488,
+      "sellTime": "2025-08-06T16:43:11Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Zulrah's scales",
+      "profit": 89298,
+      "sellTime": "2025-08-06T16:37:07Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Snape grass seed",
+      "profit": 38179,
+      "sellTime": "2025-08-06T16:17:46Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Occult ornament kit",
+      "profit": 57296,
+      "sellTime": "2025-08-06T16:05:07Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Cannonball",
+      "profit": 33000,
+      "sellTime": "2025-08-06T15:59:36Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Master wand",
+      "profit": 70904,
+      "sellTime": "2025-08-06T15:58:48Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Chugging barrel (disassembled)",
+      "profit": 163033,
+      "sellTime": "2025-08-06T15:46:28Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Chinchompa",
+      "profit": 1100,
+      "sellTime": "2025-08-06T15:31:56Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Quetzal feed",
+      "profit": 44700,
+      "sellTime": "2025-08-06T15:18:17Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Wrath rune",
+      "profit": 13419,
+      "sellTime": "2025-08-06T15:10:35Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Zulrah's scales",
+      "profit": 468,
+      "sellTime": "2025-08-06T15:07:24Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Smoke rune",
+      "profit": 3140,
+      "sellTime": "2025-08-06T15:07:23Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Chaos rune",
+      "profit": 18000,
+      "sellTime": "2025-08-06T14:59:38Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    },
+    {
+      "item": "Dragon hunter wand",
+      "profit": 82895,
+      "sellTime": "2025-08-06T14:44:05Z",
+      "account": "Ormeth",
+      "status": "FINISHED"
+    }
+  ]
+}
