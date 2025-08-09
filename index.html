@@ -1466,11 +1466,11 @@
                     <div class="quest-item in-progress">
                         <div class="quest-main">
                             <span class="quest-icon">🏆</span>
-                            <span class="quest-title">500M Club</span>
-                            <span class="quest-progress" id="club-500m-progress">Progress: 218M / 500M GP</span>
+                            <span class="quest-title">1B Club</span>
+                            <span class="quest-progress" id="club-1b-progress">Progress: 218M / 1,000M GP</span>
                         </div>
                         <div class="quest-progress-bar">
-                            <div class="quest-bar-fill" id="club-500m-bar" style="width: 43.6%"></div>
+                            <div class="quest-bar-fill" id="club-1b-bar" style="width: 21.8%"></div>
                         </div>
                     </div>
                 </div>
@@ -1720,12 +1720,12 @@
         document.getElementById('master-flipper-progress').textContent =
             `Progress: ${flipCount.toLocaleString()} / 10,000 Flips`;
 
-        // 500M Club
-        const club500mProgress = (netWorth / 500000000) * 100;
-        const clampedClubProgress = Math.min(club500mProgress, 100);
-        document.getElementById('club-500m-progress').textContent =
-            `Progress: ${formatGP(netWorth)} / 500M GP`;
-        document.getElementById('club-500m-bar').style.width = clampedClubProgress + '%';
+        // 1B Club
+        const club1bProgress = (netWorth / 1000000000) * 100;
+        const clampedClubProgress = Math.min(club1bProgress, 100);
+        document.getElementById('club-1b-progress').textContent =
+            `Progress: ${formatGP(netWorth)} / 1,000M GP`;
+        document.getElementById('club-1b-bar').style.width = clampedClubProgress + '%';
     }
 
     function createDailyProfitChart(flips, startingCash) {
