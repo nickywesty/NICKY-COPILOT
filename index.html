@@ -1645,7 +1645,7 @@
                         <!-- Starting Cash Input -->
                         <div style="margin-bottom: 20px; text-align: center;">
                             <label for="user-starting-cash" style="display: block; margin-bottom: 10px; color: #ffffff; font-weight: 600;">💰 Enter Your Starting Cash Stack (GP):</label>
-                            <input type="number" id="user-starting-cash" placeholder="e.g. 50000000" style="background: rgba(0, 0, 0, 0.5); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 10px; padding: 12px 20px; color: #ffffff; font-size: 1.1rem; text-align: center; width: 250px;" onchange="updateUserDashboard()">
+                            <input type="number" id="user-starting-cash" placeholder="e.g. 50000000" style="background: rgba(0, 0, 0, 0.5); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 10px; padding: 12px 20px; color: #ffffff; font-size: 1.1rem; text-align: center; width: 250px;" onchange="updateUserDashboard(); syncCurrentCashToGoalCalculator();">
                             <div style="font-size: 0.85rem; color: #888; margin-top: 5px;">This helps calculate your portfolio growth and ROI</div>
                         </div>
 
@@ -1668,6 +1668,16 @@
                             <div id="user-top-items-list" style="font-size: 0.85rem;">
                                 <!-- Top items will be populated -->
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily ROI Breakdown (Between dashboard and calculator) -->
+                <div id="user-daily-roi-section" style="display: none; margin-bottom: 30px;">
+                    <div style="background: rgba(255, 215, 0, 0.05); padding: 25px; border-radius: 15px; border: 1px solid rgba(255, 215, 0, 0.2);">
+                        <h4 style="color: #ffd700; margin-bottom: 20px; text-align: center;">📈 Your Daily Trading Performance (Last 7 Days)</h4>
+                        <div id="user-daily-roi-list" style="font-size: 0.9rem;">
+                            <!-- Daily ROI will be populated -->
                         </div>
                     </div>
                 </div>
@@ -2134,9 +2144,16 @@
                     statusDiv.textContent = `✅ Successfully loaded ${data.flips ? data.flips.length : data.length} trades from ${file.name}`;
                     statusDiv.style.color = '#00ff88';
                     
+                    // Automatically switch to user data source
+                    currentDataSource = 'user';
+                    document.getElementById('use-demo-data').classList.remove('active');
+                    document.getElementById('use-your-data').classList.add('active');
+                    
                     // Show user dashboard and populate it
                     document.getElementById('user-data-dashboard').style.display = 'block';
                     updateUserDashboard();
+                    
+                    console.log('✅ Switched to user data source automatically');
                 } else {
                     throw new Error('Invalid data format');
                 }
@@ -2287,7 +2304,11 @@
         });
         
         const recentProfit = recentFlips.reduce((sum, flip) => sum + flip.profit, 0);
-        const avgDailyProfit = recentProfit / 7;
+        
+        // Calculate actual days with trading activity
+        const dailyStats = calculateDailyStats(recentFlips);
+        const activeDays = Object.keys(dailyStats).length;
+        const avgDailyProfit = activeDays > 0 ? recentProfit / activeDays : 0;
         const recentAvgPerTrade = recentFlips.length > 0 ? recentProfit / recentFlips.length : 0;
         
         // Populate recent performance
@@ -2299,7 +2320,7 @@
             </div>
             <div style="text-align: center; padding: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
                 <div style="color: #ffd700; font-weight: 700;">${formatGP(Math.round(avgDailyProfit))}</div>
-                <div style="color: #aaaaaa; font-size: 0.8rem;">Daily Average</div>
+                <div style="color: #aaaaaa; font-size: 0.8rem;">Daily Average (${activeDays} days)</div>
             </div>
             <div style="text-align: center; padding: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
                 <div style="color: #ffffff; font-weight: 700;">${recentFlips.length}</div>
@@ -2345,6 +2366,95 @@
             `).join('');
         } else {
             topItemsList.innerHTML = '<div style="text-align: center; color: #888; padding: 20px;">No item data available in your upload</div>';
+        }
+        
+        // Show and populate daily ROI breakdown section
+        const dailyRoiSection = document.getElementById('user-daily-roi-section');
+        const dailyRoiList = document.getElementById('user-daily-roi-list');
+        
+        if (dailyRoiSection && dailyRoiList && Object.keys(dailyStats).length > 0) {
+            dailyRoiSection.style.display = 'block';
+            
+            const sortedDays = Object.entries(dailyStats)
+                .sort((a, b) => b[1].date - a[1].date) // Sort by date descending (newest first)
+                .slice(0, 7); // Show only last 7 days
+                
+            if (startingCash > 0) {
+                dailyRoiList.innerHTML = sortedDays.map(([dateStr, stats]) => {
+                    const roi = ((stats.profit / startingCash) * 100).toFixed(2);
+                    const avgPerTrade = stats.trades > 0 ? stats.profit / stats.trades : 0;
+                    const formattedDate = new Date(stats.date).toLocaleDateString('en-US', { 
+                        weekday: 'short', 
+                        month: 'short', 
+                        day: 'numeric' 
+                    });
+                    
+                    return `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; margin-bottom: 10px; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border-left: 4px solid ${stats.profit >= 0 ? '#00ff88' : '#ff4444'};">
+                            <div style="flex: 1;">
+                                <div style="color: #ffffff; font-weight: 600; margin-bottom: 3px;">${formattedDate}</div>
+                                <div style="color: #888; font-size: 0.85rem;">${stats.trades} trades</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="color: ${stats.profit >= 0 ? '#00ff88' : '#ff4444'}; font-weight: 700; font-size: 1.1rem;">${formatGP(stats.profit)}</div>
+                                <div style="color: #888; font-size: 0.85rem;">Daily P&L</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="color: #ffd700; font-weight: 600; font-size: 1.05rem;">${formatGP(Math.round(avgPerTrade))}</div>
+                                <div style="color: #888; font-size: 0.85rem;">Avg/Trade</div>
+                            </div>
+                            <div style="flex: 1; text-align: right;">
+                                <div style="color: ${stats.profit >= 0 ? '#00ff88' : '#ff4444'}; font-weight: 700; font-size: 1.1rem;">${roi >= 0 ? '+' : ''}${roi}%</div>
+                                <div style="color: #888; font-size: 0.85rem;">Daily ROI</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                dailyRoiList.innerHTML = '<div style="text-align: center; color: #888; padding: 30px; font-size: 1.1rem;">📊 Enter your starting cash above to see daily ROI calculations</div>';
+            }
+        }
+    }
+
+    // Calculate daily trading statistics
+    function calculateDailyStats(flips) {
+        const dailyData = {};
+        
+        flips.forEach(flip => {
+            const sellTime = flip.sellTime || flip.timestamp || flip.date;
+            const date = new Date(sellTime).toDateString(); // Get date without time
+            
+            if (!dailyData[date]) {
+                dailyData[date] = {
+                    profit: 0,
+                    trades: 0,
+                    date: new Date(sellTime)
+                };
+            }
+            
+            dailyData[date].profit += flip.profit;
+            dailyData[date].trades += 1;
+        });
+        
+        return dailyData;
+    }
+
+    // Sync user's current cash to the goal calculator
+    function syncCurrentCashToGoalCalculator() {
+        if (!userUploadedData) return;
+        
+        const userStartingCash = parseFloat(document.getElementById('user-starting-cash').value) || 0;
+        const currentAmountInput = document.getElementById('current-amount');
+        
+        if (userStartingCash > 0 && userUploadedData) {
+            // Calculate their current net worth (starting cash + trading profit)
+            const flips = userUploadedData.flips || userUploadedData;
+            const totalTradingProfit = flips.reduce((sum, flip) => sum + flip.profit, 0);
+            const currentNetWorth = userStartingCash + totalTradingProfit;
+            
+            // Update the goal calculator input
+            currentAmountInput.value = currentNetWorth;
+            console.log(`📊 Synced current cash: ${formatGP(currentNetWorth)} to goal calculator`);
         }
     }
 
@@ -2393,9 +2503,11 @@
             return;
         }
 
-        // Calculate daily averages
+        // Calculate daily averages based on actual trading days
         const totalRecentProfit = recentFlips.reduce((sum, flip) => sum + flip.profit, 0);
-        const avgDailyProfit = totalRecentProfit / 7; // Average over 7 days
+        const recentDailyStats = calculateDailyStats(recentFlips);
+        const activeTradingDays = Object.keys(recentDailyStats).length;
+        const avgDailyProfit = activeTradingDays > 0 ? totalRecentProfit / activeTradingDays : 0;
         const avgProfitPerTrade = totalRecentProfit / recentFlips.length;
         
         // Time calculations
@@ -2431,7 +2543,7 @@
             </div>
             <div class="result-item">
                 <span class="result-label">Based on Last:</span>
-                <span class="result-value">${recentFlips.length} trades (7 days)</span>
+                <span class="result-value">${recentFlips.length} trades (${activeTradingDays} active days)</span>
             </div>
             <div class="result-item">
                 <span class="result-label">Data Source:</span>
