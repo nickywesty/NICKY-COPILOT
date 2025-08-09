@@ -1675,7 +1675,7 @@
                 <div class="goal-input-section">
                     <div class="goal-input-group">
                         <label for="current-amount">Current Cash Stack (GP):</label>
-                        <input type="number" id="current-amount" class="goal-input" placeholder="211,026,040" />
+                        <input type="number" id="current-amount" class="goal-input" placeholder="605,000,000" />
                         
                         <label for="target-amount">Target Amount (GP):</label>
                         <input type="number" id="target-amount" class="goal-input" placeholder="400,000,000" />
@@ -1734,7 +1734,7 @@
         const { meta, flips } = data;
 
         // Use actual current cash stack as portfolio value
-        const currentCashStack = 211026040; // Your actual current cash
+        const currentCashStack = 605000000; // Your actual current cash
         const totalTradingProfit = meta.totalTradingProfit || meta.totalProfit;
         const calculatedStartingCash = currentCashStack - totalTradingProfit;
         const growthPercent = ((currentCashStack - calculatedStartingCash) / calculatedStartingCash * 100).toFixed(1);
@@ -2081,7 +2081,7 @@
         
         // Pre-fill current amount with actual cash stack
         if (!currentInput.value) {
-            currentInput.value = 211026040; // Current cash stack
+            currentInput.value = 605000000; // Current cash stack
         }
     }
 
