@@ -1088,6 +1088,238 @@
                 color: #ccc;
             }
 
+            /* Navigation Menu Styles */
+            .nav-menu {
+                margin-bottom: 30px;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                background: rgba(10, 10, 10, 0.95);
+                backdrop-filter: blur(20px);
+                border-radius: 20px;
+                padding: 15px 0;
+                border: 1px solid rgba(0, 255, 0, 0.2);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            }
+
+            .nav-container {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+
+            .nav-btn {
+                background: linear-gradient(135deg, rgba(20, 20, 20, 0.8) 0%, rgba(40, 40, 40, 0.8) 100%);
+                border: 2px solid rgba(255, 255, 255, 0.1);
+                border-radius: 15px;
+                padding: 12px 24px;
+                color: #ffffff;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .nav-btn::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.2), transparent);
+                transition: left 0.5s ease;
+            }
+
+            .nav-btn:hover {
+                border-color: rgba(0, 255, 136, 0.5);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(0, 255, 136, 0.2);
+            }
+
+            .nav-btn:hover::before {
+                left: 100%;
+            }
+
+            .nav-btn.active {
+                background: linear-gradient(135deg, rgba(0, 255, 136, 0.2) 0%, rgba(0, 200, 100, 0.2) 100%);
+                border-color: rgba(0, 255, 136, 0.8);
+                box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+                color: #00ff88;
+            }
+
+            .nav-btn.active::after {
+                content: '✨';
+                position: absolute;
+                top: 5px;
+                right: 8px;
+                font-size: 0.8rem;
+                animation: sparkle 2s ease-in-out infinite;
+            }
+
+            /* Page Container Styles */
+            .page {
+                display: none;
+            }
+
+            .page.active {
+                display: block;
+                animation: fadeIn 0.3s ease-out;
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            /* ROI Analysis Styles */
+            .roi-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+                gap: 30px;
+                margin-bottom: 30px;
+            }
+
+            .roi-card {
+                background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(25, 25, 25, 0.95) 100%);
+                backdrop-filter: blur(20px);
+                border-radius: 20px;
+                padding: 25px;
+                border: 1px solid rgba(0, 255, 0, 0.15);
+                transition: all 0.3s ease;
+            }
+
+            .roi-card:hover {
+                border-color: rgba(0, 255, 136, 0.4);
+                box-shadow: 0 8px 32px rgba(0, 255, 136, 0.1);
+            }
+
+            .item-name {
+                font-size: 1.3rem;
+                font-weight: 700;
+                color: #00ff88;
+                margin-bottom: 15px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .roi-stats {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+                margin-bottom: 15px;
+            }
+
+            .roi-stat {
+                text-align: center;
+                padding: 10px;
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 10px;
+            }
+
+            .roi-stat-value {
+                font-size: 1.2rem;
+                font-weight: 700;
+                color: #ffd700;
+            }
+
+            .roi-stat-label {
+                font-size: 0.9rem;
+                color: #888;
+                margin-top: 5px;
+            }
+
+            /* Goal Calculator Styles */
+            .goal-calculator {
+                max-width: 600px;
+                margin: 0 auto;
+                background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(25, 25, 25, 0.95) 100%);
+                backdrop-filter: blur(20px);
+                border-radius: 25px;
+                padding: 40px;
+                border: 1px solid rgba(0, 255, 0, 0.15);
+                text-align: center;
+            }
+
+            .goal-input-section {
+                margin-bottom: 30px;
+            }
+
+            .goal-input-group {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                margin: 20px 0;
+            }
+
+            .goal-input {
+                background: rgba(0, 0, 0, 0.5);
+                border: 2px solid rgba(0, 255, 136, 0.3);
+                border-radius: 15px;
+                padding: 15px 20px;
+                color: #ffffff;
+                font-size: 1.2rem;
+                text-align: center;
+                transition: all 0.3s ease;
+            }
+
+            .goal-input:focus {
+                outline: none;
+                border-color: rgba(0, 255, 136, 0.8);
+                box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+            }
+
+            .calculate-btn {
+                background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%);
+                border: none;
+                border-radius: 15px;
+                padding: 15px 30px;
+                color: #000000;
+                font-size: 1.1rem;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            .calculate-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(0, 255, 136, 0.4);
+            }
+
+            .goal-results {
+                margin-top: 30px;
+                padding: 20px;
+                background: rgba(0, 255, 136, 0.1);
+                border-radius: 15px;
+                border: 1px solid rgba(0, 255, 136, 0.3);
+            }
+
+            .result-item {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 0;
+                border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+            }
+
+            .result-item:last-child {
+                border-bottom: none;
+            }
+
+            .result-label {
+                color: #cccccc;
+            }
+
+            .result-value {
+                color: #00ff88;
+                font-weight: 700;
+            }
+
         </style>
     </head>
     <body>
@@ -1101,6 +1333,15 @@
             </div>
         </div>
 
+        <!-- Navigation Menu -->
+        <nav class="nav-menu">
+            <div class="nav-container">
+                <button class="nav-btn active" data-page="dashboard">📊 Dashboard</button>
+                <button class="nav-btn" data-page="roi">💰 ROI Analysis</button>
+                <button class="nav-btn" data-page="goals">🎯 Goal Calculator</button>
+            </div>
+        </nav>
+
         <div id="loading" class="loading">
             💼 Initializing Trading Dashboard...
         </div>
@@ -1109,7 +1350,8 @@
             ⚠️ Connection Error: Unable to load portfolio data. Please ensure flips.json exists in the data directory.
         </div>
 
-        <div id="dashboard" style="display: none;">
+        <!-- Dashboard Page -->
+        <div id="page-dashboard" class="page active" style="display: none;">
             <!-- Stats Grid at Top -->
             <div class="stats-grid">
                 <div class="stat-card">
@@ -1302,6 +1544,41 @@
                         <div class="stat-icon discord-icon">🎮</div>
                         <div class="stat-label">Discord</div>
                     </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROI Analysis Page -->
+        <div id="page-roi" class="page">
+            <div class="panel">
+                <h3>💰 ROI ANALYSIS</h3>
+                <p>Detailed performance analysis of your trading items</p>
+            </div>
+            <div id="roi-content" class="roi-grid">
+                <!-- ROI cards will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Goal Calculator Page -->
+        <div id="page-goals" class="page">
+            <div class="goal-calculator">
+                <h3>🎯 GOAL CALCULATOR</h3>
+                <p>Calculate how long it will take to reach your trading goals</p>
+                
+                <div class="goal-input-section">
+                    <div class="goal-input-group">
+                        <label for="current-amount">Current Cash Stack (GP):</label>
+                        <input type="number" id="current-amount" class="goal-input" placeholder="211,026,040" />
+                        
+                        <label for="target-amount">Target Amount (GP):</label>
+                        <input type="number" id="target-amount" class="goal-input" placeholder="400,000,000" />
+                    </div>
+                    
+                    <button class="calculate-btn" onclick="calculateGoal()">Calculate Time</button>
+                    
+                    <div id="goal-results" class="goal-results" style="display: none;">
+                        <!-- Results will be populated by JavaScript -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -1584,8 +1861,261 @@
         });
     }
 
+    // Global variable to store flip data
+    let globalFlipData = null;
+
+    // Navigation functionality
+    function initNavigation() {
+        const navButtons = document.querySelectorAll('.nav-btn');
+        const pages = document.querySelectorAll('.page');
+
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetPage = button.getAttribute('data-page');
+                
+                // Update active button
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Update active page
+                pages.forEach(page => page.classList.remove('active'));
+                document.getElementById(`page-${targetPage}`).classList.add('active');
+                
+                // Load page-specific content
+                if (targetPage === 'roi' && globalFlipData) {
+                    loadROIAnalysis(globalFlipData);
+                } else if (targetPage === 'goals' && globalFlipData) {
+                    initGoalCalculator(globalFlipData);
+                }
+            });
+        });
+    }
+
+    // ROI Analysis functionality
+    function loadROIAnalysis(data) {
+        const { flips } = data;
+        const roiContent = document.getElementById('roi-content');
+        
+        // Calculate detailed item statistics
+        const itemStats = {};
+        flips.forEach(flip => {
+            if (!flip.item || flip.item === '') return; // Skip items without names
+            
+            if (!itemStats[flip.item]) {
+                itemStats[flip.item] = {
+                    totalProfit: 0,
+                    totalTrades: 0,
+                    profits: [],
+                    avgProfit: 0,
+                    successRate: 0,
+                    bestTrade: 0,
+                    worstTrade: Infinity
+                };
+            }
+            
+            const stats = itemStats[flip.item];
+            stats.totalProfit += flip.profit;
+            stats.totalTrades++;
+            stats.profits.push(flip.profit);
+            stats.bestTrade = Math.max(stats.bestTrade, flip.profit);
+            stats.worstTrade = Math.min(stats.worstTrade, flip.profit);
+        });
+
+        // Calculate derived statistics
+        Object.keys(itemStats).forEach(item => {
+            const stats = itemStats[item];
+            stats.avgProfit = stats.totalProfit / stats.totalTrades;
+            stats.successRate = (stats.profits.filter(p => p > 0).length / stats.totalTrades) * 100;
+            if (stats.worstTrade === Infinity) stats.worstTrade = 0;
+        });
+
+        // Sort by total profit and take top 20
+        const topItems = Object.entries(itemStats)
+            .sort((a, b) => b[1].totalProfit - a[1].totalProfit)
+            .slice(0, 20);
+
+        // Generate ROI cards
+        const roiHTML = topItems.map(([item, stats]) => `
+            <div class="roi-card">
+                <div class="item-name">
+                    💎 ${item}
+                </div>
+                <div class="roi-stats">
+                    <div class="roi-stat">
+                        <div class="roi-stat-value">${formatGP(stats.totalProfit)}</div>
+                        <div class="roi-stat-label">Total Profit</div>
+                    </div>
+                    <div class="roi-stat">
+                        <div class="roi-stat-value">${stats.totalTrades}</div>
+                        <div class="roi-stat-label">Trades</div>
+                    </div>
+                    <div class="roi-stat">
+                        <div class="roi-stat-value">${formatGP(Math.round(stats.avgProfit))}</div>
+                        <div class="roi-stat-label">Avg Profit</div>
+                    </div>
+                    <div class="roi-stat">
+                        <div class="roi-stat-value">${stats.successRate.toFixed(1)}%</div>
+                        <div class="roi-stat-label">Success Rate</div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(0,255,136,0.2);">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                        <span>Best: <span class="profit-positive">${formatGP(stats.bestTrade)}</span></span>
+                        <span>Worst: <span class="${stats.worstTrade < 0 ? 'profit-negative' : 'profit-positive'}">${formatGP(stats.worstTrade)}</span></span>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+        roiContent.innerHTML = roiHTML;
+    }
+
+    // Goal Calculator functionality
+    function initGoalCalculator(data) {
+        const currentInput = document.getElementById('current-amount');
+        const targetInput = document.getElementById('target-amount');
+        
+        // Pre-fill current amount with actual cash stack
+        if (!currentInput.value) {
+            currentInput.value = 211026040; // Current cash stack
+        }
+    }
+
+    function calculateGoal() {
+        const currentAmount = parseFloat(document.getElementById('current-amount').value) || 0;
+        const targetAmount = parseFloat(document.getElementById('target-amount').value) || 0;
+        const resultsDiv = document.getElementById('goal-results');
+
+        if (currentAmount >= targetAmount) {
+            resultsDiv.innerHTML = '<div class="result-item"><span>🎉 You\'ve already reached your goal!</span></div>';
+            resultsDiv.style.display = 'block';
+            return;
+        }
+
+        if (!globalFlipData) {
+            resultsDiv.innerHTML = '<div class="result-item"><span>❌ Trading data not loaded yet</span></div>';
+            resultsDiv.style.display = 'block';
+            return;
+        }
+
+        const neededAmount = targetAmount - currentAmount;
+        
+        // Calculate recent performance (last 7 days)
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        
+        const recentFlips = globalFlipData.flips.filter(flip => 
+            new Date(flip.sellTime) >= sevenDaysAgo
+        );
+
+        if (recentFlips.length === 0) {
+            resultsDiv.innerHTML = '<div class="result-item"><span>❌ No recent trading data available</span></div>';
+            resultsDiv.style.display = 'block';
+            return;
+        }
+
+        // Calculate daily averages
+        const totalRecentProfit = recentFlips.reduce((sum, flip) => sum + flip.profit, 0);
+        const avgDailyProfit = totalRecentProfit / 7; // Average over 7 days
+        const avgProfitPerTrade = totalRecentProfit / recentFlips.length;
+        
+        // Time calculations
+        const daysNeeded = Math.ceil(neededAmount / avgDailyProfit);
+        const tradesNeeded = Math.ceil(neededAmount / avgProfitPerTrade);
+        
+        // Format time estimates
+        let timeEstimate = '';
+        if (daysNeeded < 30) {
+            timeEstimate = `${daysNeeded} days`;
+        } else if (daysNeeded < 365) {
+            timeEstimate = `${Math.ceil(daysNeeded / 30)} months`;
+        } else {
+            timeEstimate = `${Math.ceil(daysNeeded / 365)} years`;
+        }
+
+        const resultsHTML = `
+            <div class="result-item">
+                <span class="result-label">Amount Needed:</span>
+                <span class="result-value">${formatGP(neededAmount)}</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Recent Daily Average:</span>
+                <span class="result-value">${formatGP(Math.round(avgDailyProfit))}</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Estimated Time:</span>
+                <span class="result-value">${timeEstimate}</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Trades Needed:</span>
+                <span class="result-value">${tradesNeeded.toLocaleString()}</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Based on Last:</span>
+                <span class="result-value">${recentFlips.length} trades (7 days)</span>
+            </div>
+        `;
+
+        resultsDiv.innerHTML = resultsHTML;
+        resultsDiv.style.display = 'block';
+    }
+
+    // Modified loadFlipData to store global data and show dashboard
+    async function loadFlipData() {
+        try {
+            const possiblePaths = [
+                './data/flips.json',
+                '/data/flips.json',
+                'data/flips.json'
+            ];
+
+            let data = null;
+            let loadedFrom = '';
+
+            for (const path of possiblePaths) {
+                try {
+                    const response = await fetch(path);
+                    if (response.ok) {
+                        data = await response.json();
+                        loadedFrom = path;
+                        break;
+                    }
+                } catch (e) {
+                    continue;
+                }
+            }
+
+            if (!data) {
+                throw new Error('No data file found in any location');
+            }
+
+            console.log(`✅ Loaded data from: ${loadedFrom}`);
+            globalFlipData = data; // Store globally
+            displayDashboard(data);
+            
+            // Show the dashboard page after loading
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('page-dashboard').style.display = 'block';
+            
+        } catch (error) {
+            console.error('Error loading flip data:', error);
+            document.getElementById('loading').style.display = 'none';
+            const errorEl = document.getElementById('error');
+            errorEl.style.display = 'block';
+            errorEl.innerHTML = `
+                ⚠️ <strong>Connection Error:</strong> Unable to load portfolio data.<br>
+                <small>Please ensure flips.json exists in the data directory and run the parser first.</small>
+            `;
+        }
+    }
+
     // Load data when page loads
     loadFlipData();
+
+    // Initialize navigation when page loads
+    window.addEventListener('DOMContentLoaded', function() {
+        initNavigation();
+    });
 
     // Track page view after content loads
     window.addEventListener('load', function() {
