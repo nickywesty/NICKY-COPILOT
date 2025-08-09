@@ -1320,6 +1320,41 @@
                 font-weight: 700;
             }
 
+            /* Data Source Button Styles */
+            .data-source-btn {
+                background: linear-gradient(135deg, rgba(20, 20, 20, 0.8) 0%, rgba(40, 40, 40, 0.8) 100%);
+                border: 2px solid rgba(255, 255, 255, 0.1);
+                border-radius: 15px;
+                padding: 15px 20px;
+                color: #ffffff;
+                font-size: 0.95rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                text-align: center;
+                min-width: 180px;
+            }
+
+            .data-source-btn:hover {
+                border-color: rgba(0, 255, 136, 0.5);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(0, 255, 136, 0.2);
+            }
+
+            .data-source-btn.active {
+                background: linear-gradient(135deg, rgba(0, 255, 136, 0.2) 0%, rgba(0, 200, 100, 0.2) 100%);
+                border-color: rgba(0, 255, 136, 0.8);
+                box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+                color: #00ff88;
+            }
+
+            .data-source-btn small {
+                display: block;
+                font-size: 0.8rem;
+                margin-top: 5px;
+                opacity: 0.8;
+            }
+
         </style>
     </head>
     <body>
@@ -1564,6 +1599,78 @@
             <div class="goal-calculator">
                 <h3>🎯 GOAL CALCULATOR</h3>
                 <p>Calculate how long it will take to reach your trading goals</p>
+                
+                <!-- Data Source Selection -->
+                <div style="margin-bottom: 30px; text-align: center;">
+                    <div style="background: rgba(0, 0, 0, 0.3); padding: 20px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                        <h4 style="color: #ffd700; margin-bottom: 15px;">📊 Choose Your Data Source</h4>
+                        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                            <button id="use-demo-data" class="data-source-btn active" onclick="switchDataSource('demo')">
+                                📈 Use Demo Data<br>
+                                <small>Based on my trading history</small>
+                            </button>
+                            <button id="use-your-data" class="data-source-btn" onclick="switchDataSource('upload')">
+                                📁 Upload Your Data<br>
+                                <small>Use your own trading history</small>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Upload Section -->
+                <div id="upload-section" style="display: none; margin-bottom: 30px;">
+                    <div style="background: rgba(0, 255, 136, 0.05); padding: 20px; border-radius: 15px; border: 1px solid rgba(0, 255, 136, 0.2);">
+                        <h4 style="color: #00ff88; margin-bottom: 15px; text-align: center;">📤 Upload Your Trading Data</h4>
+                        <div style="text-align: center;">
+                            <input type="file" id="file-upload" accept=".json,.csv" style="display: none;" onchange="handleFileUpload(event)">
+                            <button onclick="document.getElementById('file-upload').click()" style="background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%); border: none; border-radius: 10px; padding: 12px 25px; color: #000; font-weight: 600; cursor: pointer; margin-bottom: 15px;">
+                                Choose File (JSON or CSV)
+                            </button>
+                            <div id="upload-status" style="margin: 10px 0; color: #cccccc;"></div>
+                            <div style="font-size: 0.85rem; color: #888; line-height: 1.4;">
+                                <strong>Supported formats:</strong><br>
+                                • JSON: Same format as this site's data structure<br>
+                                • CSV: Columns should include 'profit' and 'sellTime' (or 'timestamp')<br>
+                                <em>Your data stays in your browser - nothing is uploaded to servers</em>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Data Dashboard -->
+                <div id="user-data-dashboard" style="display: none; margin-bottom: 30px;">
+                    <div style="background: rgba(0, 255, 136, 0.05); padding: 25px; border-radius: 15px; border: 1px solid rgba(0, 255, 136, 0.2);">
+                        <h4 style="color: #00ff88; margin-bottom: 20px; text-align: center;">📊 Your Trading Summary</h4>
+                        
+                        <!-- Starting Cash Input -->
+                        <div style="margin-bottom: 20px; text-align: center;">
+                            <label for="user-starting-cash" style="display: block; margin-bottom: 10px; color: #ffffff; font-weight: 600;">💰 Enter Your Starting Cash Stack (GP):</label>
+                            <input type="number" id="user-starting-cash" placeholder="e.g. 50000000" style="background: rgba(0, 0, 0, 0.5); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 10px; padding: 12px 20px; color: #ffffff; font-size: 1.1rem; text-align: center; width: 250px;" onchange="updateUserDashboard()">
+                            <div style="font-size: 0.85rem; color: #888; margin-top: 5px;">This helps calculate your portfolio growth and ROI</div>
+                        </div>
+
+                        <!-- Stats Grid -->
+                        <div id="user-stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px;">
+                            <!-- Stats will be populated by JavaScript -->
+                        </div>
+
+                        <!-- Recent Performance -->
+                        <div id="user-recent-performance" style="margin-top: 20px; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 10px;">
+                            <h5 style="color: #ffd700; margin-bottom: 10px; text-align: center;">📈 Recent Performance (Last 7 Days)</h5>
+                            <div id="user-recent-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; font-size: 0.9rem;">
+                                <!-- Recent stats will be populated -->
+                            </div>
+                        </div>
+
+                        <!-- Top Items -->
+                        <div id="user-top-items" style="margin-top: 15px; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 10px;">
+                            <h5 style="color: #ffd700; margin-bottom: 10px; text-align: center;">🏆 Your Top Performing Items</h5>
+                            <div id="user-top-items-list" style="font-size: 0.85rem;">
+                                <!-- Top items will be populated -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
                 <div class="goal-input-section">
                     <div class="goal-input-group">
@@ -1837,8 +1944,10 @@
         });
     }
 
-    // Global variable to store flip data
+    // Global variables to store flip data
     let globalFlipData = null;
+    let userUploadedData = null;
+    let currentDataSource = 'demo'; // 'demo' or 'user'
 
     // Navigation functionality
     function initNavigation() {
@@ -1976,6 +2085,269 @@
         }
     }
 
+    // Data source switching functionality
+    function switchDataSource(source) {
+        currentDataSource = source;
+        
+        // Update button states
+        document.getElementById('use-demo-data').classList.toggle('active', source === 'demo');
+        document.getElementById('use-your-data').classList.toggle('active', source === 'upload');
+        
+        // Show/hide upload section
+        document.getElementById('upload-section').style.display = source === 'upload' ? 'block' : 'none';
+        
+        // Show/hide user dashboard
+        const userDashboard = document.getElementById('user-data-dashboard');
+        if (source === 'demo') {
+            document.getElementById('upload-status').textContent = '';
+            userDashboard.style.display = 'none';
+        } else if (source === 'upload' && userUploadedData) {
+            userDashboard.style.display = 'block';
+        }
+        
+        console.log('Switched data source to:', source);
+    }
+
+    // File upload handling
+    function handleFileUpload(event) {
+        const file = event.target.files[0];
+        const statusDiv = document.getElementById('upload-status');
+        
+        if (!file) return;
+        
+        statusDiv.textContent = '⏳ Processing file...';
+        statusDiv.style.color = '#ffd700';
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                let data = null;
+                
+                if (file.name.endsWith('.json')) {
+                    data = JSON.parse(e.target.result);
+                } else if (file.name.endsWith('.csv')) {
+                    data = parseCSVToFlipData(e.target.result);
+                }
+                
+                if (data && validateUploadedData(data)) {
+                    userUploadedData = data;
+                    statusDiv.textContent = `✅ Successfully loaded ${data.flips ? data.flips.length : data.length} trades from ${file.name}`;
+                    statusDiv.style.color = '#00ff88';
+                    
+                    // Show user dashboard and populate it
+                    document.getElementById('user-data-dashboard').style.display = 'block';
+                    updateUserDashboard();
+                } else {
+                    throw new Error('Invalid data format');
+                }
+            } catch (error) {
+                console.error('File upload error:', error);
+                statusDiv.textContent = '❌ Error: Invalid file format. Please check your data structure.';
+                statusDiv.style.color = '#ff4444';
+                userUploadedData = null;
+            }
+        };
+        
+        reader.readAsText(file);
+    }
+
+    // Parse CSV to flip data format
+    function parseCSVToFlipData(csvText) {
+        const lines = csvText.trim().split('\n');
+        const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+        
+        // Find required columns
+        const profitCol = headers.findIndex(h => h.includes('profit'));
+        const timeCol = headers.findIndex(h => h.includes('time') || h.includes('date') || h.includes('timestamp'));
+        
+        // Try to find item column
+        const itemCol = headers.findIndex(h => 
+            h.includes('item') || h.includes('name') || h.includes('product')
+        );
+        
+        if (profitCol === -1 || timeCol === -1) {
+            throw new Error('CSV must contain profit and time columns');
+        }
+        
+        const flips = [];
+        for (let i = 1; i < lines.length; i++) {
+            const values = lines[i].split(',');
+            if (values.length >= Math.max(profitCol, timeCol) + 1) {
+                const profit = parseFloat(values[profitCol]) || 0;
+                const sellTime = values[timeCol].trim();
+                
+                // Determine item name - prefer dedicated item column, fallback to first non-time/profit column
+                let itemName = 'Unknown Item';
+                if (itemCol !== -1 && values[itemCol]) {
+                    itemName = values[itemCol].trim();
+                } else {
+                    // Find first column that's not time or profit
+                    for (let j = 0; j < values.length; j++) {
+                        if (j !== timeCol && j !== profitCol && values[j] && values[j].trim() !== '') {
+                            const val = values[j].trim();
+                            // Check if it looks like an item name (not a number or date)
+                            if (isNaN(parseFloat(val)) && !val.match(/^\d{4}-\d{2}-\d{2}/) && !val.match(/^\d{2}\/\d{2}\/\d{4}/)) {
+                                itemName = val;
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                flips.push({
+                    profit: profit,
+                    sellTime: sellTime,
+                    item: itemName
+                });
+            }
+        }
+        
+        return {
+            meta: {
+                totalFlips: flips.length,
+                totalTradingProfit: flips.reduce((sum, flip) => sum + flip.profit, 0)
+            },
+            flips: flips
+        };
+    }
+
+    // Validate uploaded data structure
+    function validateUploadedData(data) {
+        if (!data) return false;
+        
+        // Handle direct array of flips
+        if (Array.isArray(data)) {
+            return data.every(flip => 
+                typeof flip.profit === 'number' && 
+                (flip.sellTime || flip.timestamp || flip.date)
+            );
+        }
+        
+        // Handle structured data with flips array
+        if (data.flips && Array.isArray(data.flips)) {
+            return data.flips.every(flip => 
+                typeof flip.profit === 'number' && 
+                (flip.sellTime || flip.timestamp || flip.date)
+            );
+        }
+        
+        return false;
+    }
+
+    // Update user dashboard with their trading statistics
+    function updateUserDashboard() {
+        if (!userUploadedData) return;
+        
+        const startingCash = parseFloat(document.getElementById('user-starting-cash').value) || 0;
+        const flips = userUploadedData.flips || userUploadedData;
+        
+        // Calculate basic stats
+        const totalTradingProfit = flips.reduce((sum, flip) => sum + flip.profit, 0);
+        const totalFlips = flips.length;
+        const avgProfitPerFlip = totalTradingProfit / totalFlips;
+        const currentNetWorth = startingCash + totalTradingProfit;
+        const growthPercent = startingCash > 0 ? ((currentNetWorth - startingCash) / startingCash * 100).toFixed(1) : 0;
+        
+        // Find unique items
+        const uniqueItems = new Set(flips.filter(flip => flip.item && flip.item !== '').map(flip => flip.item)).size;
+        
+        // Populate main stats grid
+        const statsGrid = document.getElementById('user-stats-grid');
+        statsGrid.innerHTML = `
+            <div style="text-align: center; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 10px;">
+                <div style="color: #00ff88; font-size: 1.3rem; font-weight: 700; margin-bottom: 5px;">${formatGP(currentNetWorth)}</div>
+                <div style="color: #cccccc; font-size: 0.85rem;">Portfolio Value</div>
+                ${startingCash > 0 ? `<div style="color: #ffd700; font-size: 0.8rem; margin-top: 3px;">+${growthPercent}% growth</div>` : ''}
+            </div>
+            <div style="text-align: center; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 10px;">
+                <div style="color: #00ff88; font-size: 1.3rem; font-weight: 700; margin-bottom: 5px;">${formatGP(totalTradingProfit)}</div>
+                <div style="color: #cccccc; font-size: 0.85rem;">Trading P&L</div>
+            </div>
+            <div style="text-align: center; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 10px;">
+                <div style="color: #ffffff; font-size: 1.3rem; font-weight: 700; margin-bottom: 5px;">${totalFlips.toLocaleString()}</div>
+                <div style="color: #cccccc; font-size: 0.85rem;">Total Trades</div>
+            </div>
+            <div style="text-align: center; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 10px;">
+                <div style="color: #00ff88; font-size: 1.3rem; font-weight: 700; margin-bottom: 5px;">${formatGP(Math.round(avgProfitPerFlip))}</div>
+                <div style="color: #cccccc; font-size: 0.85rem;">Avg per Trade</div>
+            </div>
+            <div style="text-align: center; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 10px;">
+                <div style="color: #ffd700; font-size: 1.3rem; font-weight: 700; margin-bottom: 5px;">${uniqueItems}</div>
+                <div style="color: #cccccc; font-size: 0.85rem;">Unique Items</div>
+            </div>
+        `;
+        
+        // Calculate recent performance (last 7 days)
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        
+        const recentFlips = flips.filter(flip => {
+            const sellTime = flip.sellTime || flip.timestamp || flip.date;
+            return new Date(sellTime) >= sevenDaysAgo;
+        });
+        
+        const recentProfit = recentFlips.reduce((sum, flip) => sum + flip.profit, 0);
+        const avgDailyProfit = recentProfit / 7;
+        const recentAvgPerTrade = recentFlips.length > 0 ? recentProfit / recentFlips.length : 0;
+        
+        // Populate recent performance
+        const recentStats = document.getElementById('user-recent-stats');
+        recentStats.innerHTML = `
+            <div style="text-align: center; padding: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                <div style="color: #00ff88; font-weight: 700;">${formatGP(recentProfit)}</div>
+                <div style="color: #aaaaaa; font-size: 0.8rem;">Total Profit</div>
+            </div>
+            <div style="text-align: center; padding: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                <div style="color: #ffd700; font-weight: 700;">${formatGP(Math.round(avgDailyProfit))}</div>
+                <div style="color: #aaaaaa; font-size: 0.8rem;">Daily Average</div>
+            </div>
+            <div style="text-align: center; padding: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                <div style="color: #ffffff; font-weight: 700;">${recentFlips.length}</div>
+                <div style="color: #aaaaaa; font-size: 0.8rem;">Trades</div>
+            </div>
+            <div style="text-align: center; padding: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                <div style="color: #00ff88; font-weight: 700;">${formatGP(Math.round(recentAvgPerTrade))}</div>
+                <div style="color: #aaaaaa; font-size: 0.8rem;">Avg per Trade</div>
+            </div>
+        `;
+        
+        // Calculate top performing items
+        const itemStats = {};
+        flips.forEach(flip => {
+            const itemName = flip.item || 'Unknown Item';
+            if (itemName === '' || itemName === 'Unknown Item') return;
+            
+            if (!itemStats[itemName]) {
+                itemStats[itemName] = { totalProfit: 0, count: 0 };
+            }
+            itemStats[itemName].totalProfit += flip.profit;
+            itemStats[itemName].count += 1;
+        });
+        
+        const topItems = Object.entries(itemStats)
+            .sort((a, b) => b[1].totalProfit - a[1].totalProfit)
+            .slice(0, 5);
+        
+        // Populate top items
+        const topItemsList = document.getElementById('user-top-items-list');
+        if (topItems.length > 0) {
+            topItemsList.innerHTML = topItems.map(([item, stats], index) => `
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px; margin-bottom: 5px; background: rgba(255, 255, 255, 0.03); border-radius: 6px;">
+                    <div style="display: flex; align-items: center;">
+                        <span style="color: #ffd700; margin-right: 8px; font-weight: bold;">#${index + 1}</span>
+                        <span style="color: #ffffff;">${item}</span>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="color: #00ff88; font-weight: 600;">${formatGP(stats.totalProfit)}</div>
+                        <div style="color: #888; font-size: 0.8rem;">${stats.count} trades</div>
+                    </div>
+                </div>
+            `).join('');
+        } else {
+            topItemsList.innerHTML = '<div style="text-align: center; color: #888; padding: 20px;">No item data available in your upload</div>';
+        }
+    }
+
     function calculateGoal() {
         const currentAmount = parseFloat(document.getElementById('current-amount').value) || 0;
         const targetAmount = parseFloat(document.getElementById('target-amount').value) || 0;
@@ -1987,8 +2359,19 @@
             return;
         }
 
-        if (!globalFlipData) {
-            resultsDiv.innerHTML = '<div class="result-item"><span>❌ Trading data not loaded yet</span></div>';
+        // Determine which data to use
+        let dataToUse = null;
+        if (currentDataSource === 'user' && userUploadedData) {
+            dataToUse = userUploadedData;
+        } else if (globalFlipData) {
+            dataToUse = globalFlipData;
+        }
+
+        if (!dataToUse) {
+            let errorMsg = currentDataSource === 'user' ? 
+                '❌ Please upload your trading data first' : 
+                '❌ Trading data not loaded yet';
+            resultsDiv.innerHTML = `<div class="result-item"><span>${errorMsg}</span></div>`;
             resultsDiv.style.display = 'block';
             return;
         }
@@ -1999,9 +2382,10 @@
         const sevenDaysAgo = new Date();
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
         
-        const recentFlips = globalFlipData.flips.filter(flip => 
-            new Date(flip.sellTime) >= sevenDaysAgo
-        );
+        const recentFlips = dataToUse.flips.filter(flip => {
+            const sellTime = flip.sellTime || flip.timestamp || flip.date;
+            return new Date(sellTime) >= sevenDaysAgo;
+        });
 
         if (recentFlips.length === 0) {
             resultsDiv.innerHTML = '<div class="result-item"><span>❌ No recent trading data available</span></div>';
@@ -2048,6 +2432,10 @@
             <div class="result-item">
                 <span class="result-label">Based on Last:</span>
                 <span class="result-value">${recentFlips.length} trades (7 days)</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Data Source:</span>
+                <span class="result-value">${currentDataSource === 'user' ? 'Your uploaded data' : 'Demo data'}</span>
             </div>
         `;
 
